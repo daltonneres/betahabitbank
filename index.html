@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HabitBank — Beta</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:        #1D9E75;
+      --green-dark:   #085041;
+      --green-mid:    #0F6E56;
+      --green-light:  #E1F5EE;
+      --green-pale:   #f0faf6;
+      --amber:        #BA7517;
+      --amber-light:  #FAEEDA;
+      --red:          #E24B4A;
+      --red-light:    #FCEBEB;
+      --blue:         #185FA5;
+      --blue-light:   #E6F1FB;
+      --text:         #1a1a1a;
+      --text-muted:   #6b7280;
+      --text-hint:    #9ca3af;
+      --bg:           #f8f9f7;
+      --surface:      #ffffff;
+      --surface2:     #f3f4f2;
+      --border:       rgba(0,0,0,0.08);
+      --border-md:    rgba(0,0,0,0.13);
+      --shadow-sm:    0 1px 4px rgba(0,0,0,0.06);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg:    0 8px 32px rgba(0,0,0,0.10);
+      --r-sm:         8px;
+      --r-md:         12px;
+      --r-lg:         18px;
+      --r-xl:         24px;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* ── LAYOUT SHELL ── */
+    .shell {
+      display: flex;
+      min-height: 100vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.25rem;
+      padding: 0 0.5rem;
+    }
+
+    .logo span { color: var(--text); opacity: 0.4; }
+
+    .beta-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin: 0 0 1.75rem 0.5rem;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-hint);
+      font-weight: 600;
+      padding: 0 0.5rem;
+      margin-bottom: 0.4rem;
+      margin-top: 1.25rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+
+    .nav-item:hover { background: var(--green-light); color: var(--green-dark); }
+    .nav-item.active { background: var(--green); color: #fff; }
+    .nav-item.active .nav-icon { opacity: 1; }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--r-md);
+      background: var(--surface2);
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .user-level { font-size: 11px; color: var(--text-muted); }
+
+    /* ── MAIN ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.875rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+    .pts-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-light);
+      border: 1px solid rgba(186,117,23,0.2);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--amber);
+    }
+
+    .notif-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      position: relative;
+      transition: background 0.15s;
+    }
+    .notif-btn:hover { background: var(--green-light); }
+    .notif-dot {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 1.5px solid var(--surface);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page { display: none; padding: 2rem; animation: fadeIn 0.2s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .page-header { margin-bottom: 1.75rem; }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+    }
+    .page-header p { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
+
+    /* ── GRID ── */
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+
+    /* ── METRIC CARD ── */
+    .metric {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .metric:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .metric-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .metric-value { font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1; }
+    .metric-value.green { color: var(--green); }
+    .metric-value.red { color: var(--red); }
+    .metric-value.amber { color: var(--amber); }
+    .metric-value.blue { color: var(--blue); }
+    .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+      margin-top: 5px;
+    }
+    .metric-badge.up { background: var(--green-light); color: var(--green-dark); }
+    .metric-badge.down { background: var(--red-light); color: var(--red); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.25rem;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .card-action {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+    }
+    .card-action:hover { text-decoration: underline; }
+
+    /* ── HERO BALANCE ── */
+    .balance-hero {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, #2ec090 100%);
+      border-radius: var(--r-xl);
+      padding: 2rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .balance-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+    .balance-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 30%;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .balance-label { font-size: 12px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.08em; }
+    .balance-amount { font-family: var(--font-display); font-size: 42px; font-weight: 800; line-height: 1.1; margin: 6px 0; }
+    .balance-row { display: flex; gap: 24px; margin-top: 1.25rem; }
+    .balance-stat { }
+    .balance-stat-label { font-size: 11px; opacity: 0.7; }
+    .balance-stat-val { font-size: 16px; font-weight: 600; margin-top: 2px; }
+    .balance-stat-val.in { color: #86efcb; }
+    .balance-stat-val.out { color: #fca5a5; }
+
+    /* ── STREAK CALENDAR ── */
+    .streak-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+    .s-day {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500;
+      background: var(--surface2);
+      color: var(--text-hint);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .s-day.done { background: var(--green); color: #fff; border-color: var(--green); }
+    .s-day.today {
+      background: var(--green-light); color: var(--green-dark);
+      border-color: var(--green); border-width: 2px;
+      font-weight: 700;
+    }
+    .s-day.missed { background: var(--red-light); color: var(--red); border-color: rgba(226,75,74,0.2); }
+    .streak-info { display: flex; align-items: center; gap: 16px; margin-top: 10px; }
+    .streak-num { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--green); }
+    .streak-desc { font-size: 13px; color: var(--text-muted); }
+
+    /* ── TRANSACTIONS ── */
+    .tx-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .tx-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .tx-left { display: flex; align-items: center; gap: 12px; }
+    .tx-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .tx-icon.green { background: var(--green-light); }
+    .tx-icon.red { background: var(--red-light); }
+    .tx-icon.amber { background: var(--amber-light); }
+    .tx-icon.blue { background: var(--blue-light); }
+    .tx-name { font-size: 14px; font-weight: 500; color: var(--text); }
+    .tx-cat { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+    .tx-right { text-align: right; }
+    .tx-val { font-size: 14px; font-weight: 700; }
+    .tx-val.plus { color: var(--green); }
+    .tx-val.minus { color: var(--red); }
+    .tx-date { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
+
+    /* ── BAR CHART ── */
+    .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 100px; padding-bottom: 0; }
+    .bar-group { display: flex; gap: 3px; align-items: flex-end; flex: 1; }
+    .bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 6px; }
+    .bar {
+      width: 100%; border-radius: 4px 4px 0 0;
+      min-height: 4px;
+      transition: height 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .bar.g { background: var(--green); }
+    .bar.r { background: var(--red); opacity: 0.75; }
+    .bar-lbl { font-size: 10px; color: var(--text-hint); }
+    .chart-legend { display: flex; gap: 14px; margin-top: 10px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .legend-label { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+
+    /* ── DONUT CHART ── */
+    .donut-row { display: flex; align-items: center; gap: 24px; }
+    .donut-canvas { width: 100px; height: 100px; flex-shrink: 0; }
+    .cat-list { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .cat-row { display: flex; align-items: center; gap: 8px; }
+    .cat-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .cat-name { font-size: 13px; color: var(--text); flex: 1; }
+    .cat-pct { font-size: 13px; font-weight: 600; color: var(--text); }
+    .cat-val { font-size: 12px; color: var(--text-muted); }
+
+    /* ── PROGRESS BAR ── */
+    .prog-bar { height: 8px; background: var(--surface2); border-radius: 999px; overflow: hidden; margin: 4px 0; }
+    .prog-fill { height: 100%; border-radius: 999px; background: var(--green); transition: width 0.6s ease; }
+    .prog-fill.amber { background: var(--amber); }
+    .prog-fill.red { background: var(--red); }
+    .prog-fill.blue { background: var(--blue); }
+
+    /* ── POINTS HERO ── */
+    .pts-hero {
+      background: linear-gradient(135deg, #0a3d2c 0%, var(--green-dark) 50%, var(--green-mid) 100%);
+      border-radius: var(--r-xl);
+      padding: 1.75rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .pts-hero::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 150px; height: 150px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .pts-hero-label { font-size: 11px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.1em; }
+    .pts-hero-val { font-family: var(--font-display); font-size: 48px; font-weight: 800; color: #fff; line-height: 1; }
+    .pts-hero-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+    .pts-level-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: var(--r-md);
+      padding: 10px 16px;
+      text-align: center;
+    }
+    .pts-level-name { font-size: 15px; font-weight: 700; color: #fff; }
+    .pts-level-icon { font-size: 26px; display: block; margin-bottom: 4px; }
+
+    /* ── LEVELS ── */
+    .level-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1rem; }
+    .level-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 10px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .level-card.current { border-color: var(--green); border-width: 2px; background: var(--green-light); }
+    .level-icon { font-size: 24px; margin-bottom: 5px; }
+    .level-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .level-card.current .level-name { color: var(--green-dark); }
+    .level-pts { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── CHALLENGES ── */
+    .challenge-item {
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      display: flex; align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.2s;
+    }
+    .challenge-item:hover { box-shadow: var(--shadow-sm); }
+    .challenge-icon { font-size: 24px; flex-shrink: 0; }
+    .challenge-info { flex: 1; }
+    .challenge-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .challenge-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .challenge-pts {
+      font-size: 13px; font-weight: 700; color: var(--green);
+      background: var(--green-light); padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+    }
+
+    /* ── REWARDS ── */
+    .reward-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .reward-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px;
+      transition: all 0.2s;
+    }
+    .reward-card:hover { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light); }
+    .reward-emoji { font-size: 26px; margin-bottom: 6px; display: block; }
+    .reward-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .reward-partner { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+    .reward-pts-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .reward-pts { font-size: 13px; font-weight: 700; color: var(--amber); }
+    .btn-resgate {
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 600;
+      padding: 5px 12px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--green);
+      background: transparent;
+      color: var(--green);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-resgate:hover { background: var(--green); color: #fff; }
+
+    /* ── FORM ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-field { display: flex; flex-direction: column; gap: 5px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .form-input, .form-select {
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 10px 13px;
+      border: 1px solid var(--border-md);
+      border-radius: var(--r-sm);
+      background: var(--surface2);
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-light);
+    }
+
+    .type-toggle { display: flex; border: 1px solid var(--border-md); border-radius: var(--r-sm); overflow: hidden; margin-bottom: 14px; }
+    .type-btn {
+      flex: 1; padding: 11px;
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 600;
+      border: none; background: transparent;
+      cursor: pointer; color: var(--text-muted);
+      transition: all 0.15s;
+    }
+    .type-btn.active.entrada { background: var(--green); color: #fff; }
+    .type-btn.active.saida { background: var(--red); color: #fff; }
+
+    .btn-primary {
+      font-family: var(--font-body);
+      width: 100%; padding: 13px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: var(--r-sm);
+      font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+      margin-top: 6px;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:active { transform: scale(0.99); }
+
+    /* ── AI PAGE ── */
+    .ai-insight-hero {
+      background: linear-gradient(135deg, var(--green-pale), var(--green-light));
+      border: 1px solid rgba(29,158,117,0.25);
+      border-radius: var(--r-xl);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .ai-orb {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--green); display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+      box-shadow: 0 0 0 6px var(--green-light);
+    }
+    .ai-tag { font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .ai-text { font-size: 14px; color: var(--green-dark); line-height: 1.65; }
+
+    .insight-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .insight-item:last-child { border-bottom: none; }
+    .insight-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .insight-dot.g { background: var(--green); }
+    .insight-dot.a { background: var(--amber); }
+    .insight-dot.r { background: var(--red); }
+    .insight-text { font-size: 14px; color: var(--text); line-height: 1.55; }
+
+    .goals-list { display: flex; flex-direction: column; gap: 14px; }
+    .goal-item { }
+    .goal-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+    .goal-name { font-weight: 500; color: var(--text); }
+    .goal-pct { color: var(--text-muted); }
+
+    /* ── ONBOARDING OVERLAY ── */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+    .overlay.hidden { display: none; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      padding: 2.25rem;
+      max-width: 460px; width: 100%;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .modal-step { display: none; }
+    .modal-step.active { display: block; }
+    .modal-logo { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--green); margin-bottom: 0.25rem; }
+    .modal-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+    .modal-sub { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+    .modal-dots { display: flex; gap: 6px; justify-content: center; margin-top: 1.25rem; }
+    .mdot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-md); transition: background 0.2s; }
+    .mdot.active { background: var(--green); }
+    .btn-modal {
+      font-family: var(--font-body);
+      width: 100%; padding: 12px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: var(--r-sm);
+      font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .btn-modal:hover { opacity: 0.88; }
+    .btn-skip {
+      font-family: var(--font-body);
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 13px;
+      display: block; margin: 10px auto 0;
+    }
+
+    .profile-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+    .profile-opt {
+      border: 1.5px solid var(--border-md);
+      border-radius: var(--r-md);
+      padding: 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      font-family: var(--font-body);
+      background: var(--surface);
+    }
+    .profile-opt:hover { border-color: var(--green); background: var(--green-pale); }
+    .profile-opt.selected { border-color: var(--green); background: var(--green-light); }
+    .profile-opt-icon { font-size: 24px; display: block; margin-bottom: 5px; }
+    .profile-opt-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .profile-opt-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a1a1a; color: #fff;
+      padding: 12px 22px; border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      z-index: 200; white-space: nowrap;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.green-toast { background: var(--green-dark); }
+
+    /* ── MOBILE ── */
+    .mobile-nav { display: none; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { padding-bottom: 70px; }
+      .mobile-nav {
+        display: flex;
+        position: fixed; bottom: 0; left: 0; right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        z-index: 30;
+        padding: 8px 0 10px;
+      }
+      .mob-btn {
+        flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+        border: none; background: none; cursor: pointer;
+        font-family: var(--font-body); font-size: 10px; color: var(--text-muted);
+        transition: color 0.15s;
+        padding: 0;
+      }
+      .mob-btn.active { color: var(--green); }
+      .mob-btn svg { width: 22px; height: 22px; }
+      .page { padding: 1.25rem; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2 { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .reward-grid { grid-template-columns: 1fr; }
+      .level-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .balance-amount { font-size: 32px; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar { padding: 0.75rem 1rem; }
+      .pts-hero-val { font-size: 36px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .card { animation: slideUp 0.3s ease both; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .metric:nth-child(1) { animation-delay: 0.05s; }
+    .metric:nth-child(2) { animation-delay: 0.1s; }
+    .metric:nth-child(3) { animation-delay: 0.15s; }
+    .metric:nth-child(4) { animation-delay: 0.2s; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 999px; }
+  </style>
+</head>
+<body>
+
+<!-- ONBOARDING MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+
+    <!-- Step 1: Boas-vindas -->
+    <div class="modal-step active" id="step-1">
+      <div class="modal-logo">HabitBank</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1.25rem;">Versão Beta</div>
+      <div class="modal-title">Bem-vindo à sua nova vida financeira</div>
+      <div class="modal-sub">O HabitBank une controle financeiro, inteligência artificial e gamificação para transformar sua relação com o dinheiro.</div>
+      <button class="btn-modal" onclick="nextStep(2)">Começar configuração</button>
+      <button class="btn-skip" onclick="closeOverlay()">Já tenho conta — entrar</button>
+      <div class="modal-dots">
+        <div class="mdot active" id="dot-1"></div>
+        <div class="mdot" id="dot-2"></div>
+        <div class="mdot" id="dot-3"></div>
+        <div class="mdot" id="dot-4"></div>
+      </div>
+    </div>
+
+    <!-- Step 2: Perfil -->
+    <div class="modal-step" id="step-2">
+      <div class="modal-title">Qual é o seu perfil?</div>
+      <div class="modal-sub">Personalizamos a experiência com base no seu objetivo principal.</div>
+      <div class="profile-options">
+        <button class="profile-opt" onclick="selectProfile(this)">
+          <span class="profile-opt-icon">👤</span>
+          <div class="profile-opt-name">Pessoa física</div>
+          <div class="profile-opt-desc">Controle pessoal e familiar</div>
+        </button>
+        <button class="profile-opt" onclick="selectProfile(this)">
+          <span class="profile-opt-icon">🏪</span>
+          <div class="profile-opt-name">Microempreendedor</div>
+          <div class="profile-opt-desc">MEI e pequenos negócios</div>
+        </button>
+        <button class="profile-opt" onclick="selectProfile(this)">
+          <span class="profile-opt-icon">🏢</span>
+          <div class="profile-opt-name">Empresa</div>
+          <div class="profile-opt-desc">PME com equipe</div>
+        </button>
+        <button class="profile-opt" onclick="selectProfile(this)">
+          <span class="profile-opt-icon">🎓</span>
+          <div class="profile-opt-name">Estudante</div>
+          <div class="profile-opt-desc">Começando do zero</div>
+        </button>
+      </div>
+      <button class="btn-modal" onclick="nextStep(3)">Continuar</button>
+      <div class="modal-dots">
+        <div class="mdot" id="dot-1b"></div>
+        <div class="mdot active" id="dot-2b"></div>
+        <div class="mdot" id="dot-3b"></div>
+        <div class="mdot" id="dot-4b"></div>
+      </div>
+    </div>
+
+    <!-- Step 3: Dados financeiros -->
+    <div class="modal-step" id="step-3">
+      <div class="modal-title">Conte sobre sua situação</div>
+      <div class="modal-sub">Essas informações ajudam a IA a personalizar seus insights. Você pode atualizar depois.</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem;">
+        <div class="form-field">
+          <label class="form-label">Renda mensal (R$)</label>
+          <input class="form-input" type="number" placeholder="Ex: 4.000" id="ob-renda"/>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Média de gastos mensais (R$)</label>
+          <input class="form-input" type="number" placeholder="Ex: 2.500" id="ob-gastos"/>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Objetivo principal</label>
+          <select class="form-select" id="ob-objetivo">
+            <option>Controlar gastos do dia a dia</option>
+            <option>Montar reserva de emergência</option>
+            <option>Quitar dívidas</option>
+            <option>Investir e crescer patrimônio</option>
+            <option>Planejar grandes compras</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-modal" onclick="nextStep(4)">Próximo</button>
+      <div class="modal-dots">
+        <div class="mdot" ></div>
+        <div class="mdot" ></div>
+        <div class="mdot active"></div>
+        <div class="mdot" ></div>
+      </div>
+    </div>
+
+    <!-- Step 4: Pronto! -->
+    <div class="modal-step" id="step-4">
+      <div style="text-align:center;padding:0.5rem 0;">
+        <div style="font-size:52px;margin-bottom:1rem;">🎉</div>
+        <div class="modal-title" style="text-align:center;">Tudo pronto, Lucas!</div>
+        <div class="modal-sub" style="text-align:center;">Seu perfil foi criado. Você ganhou <strong style="color:var(--green);">200 Pointspay</strong> de bônus por completar o onboarding!</div>
+        <button class="btn-modal" onclick="closeOverlay()">Acessar o HabitBank</button>
+      </div>
+      <div class="modal-dots" style="margin-top:1.25rem;">
+        <div class="mdot"></div>
+        <div class="mdot"></div>
+        <div class="mdot"></div>
+        <div class="mdot active"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">Habit<span>Bank</span></div>
+    <div class="beta-tag">Beta</div>
+
+    <div class="nav-section-label">Principal</div>
+    <button class="nav-item active" onclick="showPage('dashboard', this)" data-page="dashboard">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="showPage('registrar', this)" data-page="registrar">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+      Registrar
+    </button>
+    <button class="nav-item" onclick="showPage('extrato', this)" data-page="extrato">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      Extrato
+    </button>
+    <button class="nav-item" onclick="showPage('metas', this)" data-page="metas">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Metas
+    </button>
+
+    <div class="nav-section-label">Recompensas</div>
+    <button class="nav-item" onclick="showPage('pointspay', this)" data-page="pointspay">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Pointspay
+    </button>
+
+    <div class="nav-section-label">Inteligência</div>
+    <button class="nav-item" onclick="showPage('ia', this)" data-page="ia">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-5 0v-15A2.5 2.5 0 019.5 2zM14.5 8A2.5 2.5 0 0117 10.5v9a2.5 2.5 0 01-5 0v-9A2.5 2.5 0 0114.5 8z"/></svg>
+      IA Financeira
+    </button>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar">LM</div>
+        <div>
+          <div class="user-name">Lucas Martins</div>
+          <div class="user-level">⚡ Nível Prata</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main" id="main-area">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="pts-chip" id="pts-topbar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span id="pts-display">1.240 pts</span>
+        </div>
+        <button class="notif-btn" title="Notificações">
+          🔔
+          <div class="notif-dot"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: DASHBOARD ════════════ -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <h1>Olá, Lucas 👋</h1>
+        <p id="dash-subtitle">Segunda-feira, 23 de março · Sequência de <strong>7 dias 🔥</strong></p>
+      </div>
+
+      <!-- HERO BALANCE -->
+      <div class="balance-hero">
+        <div class="balance-label">Saldo atual</div>
+        <div class="balance-amount" id="hero-saldo">R$ 3.420,00</div>
+        <div class="balance-row">
+          <div class="balance-stat">
+            <div class="balance-stat-label">Receitas março</div>
+            <div class="balance-stat-val in" id="hero-entrada">+ R$ 4.600</div>
+          </div>
+          <div class="balance-stat">
+            <div class="balance-stat-label">Despesas março</div>
+            <div class="balance-stat-val out" id="hero-saida">− R$ 2.180</div>
+          </div>
+          <div class="balance-stat">
+            <div class="balance-stat-label">Pointspay hoje</div>
+            <div class="balance-stat-val" style="color:#fcd34d;">+80 pts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METRICS -->
+      <div class="grid-4">
+        <div class="metric">
+          <div class="metric-label">Gastos do mês</div>
+          <div class="metric-value red" id="metric-gastos">R$ 2.180</div>
+          <div class="metric-badge down">▲ 8% vs fev</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Meta de poupança</div>
+          <div class="metric-value green">72%</div>
+          <div class="metric-badge up">▲ +5% vs fev</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Pointspay</div>
+          <div class="metric-value amber" id="metric-pts">1.240</div>
+          <div class="metric-sub">+80 ganhos hoje</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Contas a vencer</div>
+          <div class="metric-value blue">3</div>
+          <div class="metric-sub">Próxima: em 3 dias</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Gráfico de barras -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Receitas × Despesas — março</div>
+          </div>
+          <div class="bar-chart" id="bar-chart">
+            <!-- rendered by JS -->
+          </div>
+          <div class="chart-legend">
+            <div class="legend-label"><div class="legend-dot" style="background:var(--green)"></div>Receitas</div>
+            <div class="legend-label"><div class="legend-dot" style="background:var(--red);opacity:0.75"></div>Despesas</div>
+          </div>
+        </div>
+
+        <!-- Categorias donut -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Distribuição de gastos</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text)">🏠 Moradia</span><span style="color:var(--text-muted)">R$ 950 · 44%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill" style="width:44%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text)">🍔 Alimentação</span><span style="color:var(--text-muted)">R$ 680 · 31%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill amber" style="width:31%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text)">🎮 Lazer</span><span style="color:var(--text-muted)">R$ 330 · 15%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill red" style="width:15%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text)">🚗 Transporte</span><span style="color:var(--text-muted)">R$ 220 · 10%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill blue" style="width:10%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Consistência -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Consistência — março</div>
+          </div>
+          <div class="streak-grid" id="streak-grid"></div>
+          <div class="streak-info">
+            <div class="streak-num">7</div>
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--text)">dias consecutivos 🔥</div>
+              <div class="streak-desc">Continue e ganhe +100 pts ao completar 14 dias!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Últimas transações -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Últimas movimentações</div>
+            <button class="card-action" onclick="showPage('extrato', document.querySelector('[data-page=extrato]'))">Ver todas</button>
+          </div>
+          <div id="dash-tx-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: REGISTRAR ════════════ -->
+    <div id="page-registrar" class="page">
+      <div class="page-header">
+        <h1>Nova movimentação</h1>
+        <p>Registre e ganhe <strong style="color:var(--green)">+20 Pointspay</strong> automaticamente</p>
+      </div>
+
+      <div style="max-width:560px;">
+        <div class="card">
+          <div class="type-toggle">
+            <button class="type-btn active entrada" id="btn-entrada" onclick="setTipo('entrada')">💰 Entrada</button>
+            <button class="type-btn saida" id="btn-saida" onclick="setTipo('saida')">💸 Saída</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field full">
+              <label class="form-label">Descrição</label>
+              <input class="form-input" id="f-desc" type="text" placeholder="Ex: Salário, Mercado, Uber..." />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Valor (R$)</label>
+              <input class="form-input" id="f-val" type="number" placeholder="0,00" min="0" step="0.01"/>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Data</label>
+              <input class="form-input" id="f-data" type="date"/>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Categoria</label>
+              <select class="form-select" id="f-cat">
+                <option>🍔 Alimentação</option>
+                <option>🏠 Moradia</option>
+                <option>🚗 Transporte</option>
+                <option>💊 Saúde</option>
+                <option>🎮 Lazer</option>
+                <option>👗 Vestuário</option>
+                <option>📚 Educação</option>
+                <option>💼 Salário</option>
+                <option>💻 Freelance</option>
+                <option>📦 Outros</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Conta / Cartão</label>
+              <select class="form-select" id="f-conta">
+                <option>Conta corrente</option>
+                <option>Poupança</option>
+                <option>Cartão de crédito</option>
+                <option>Dinheiro</option>
+                <option>PIX</option>
+              </select>
+            </div>
+            <div class="form-field full">
+              <label class="form-label">Observação (opcional)</label>
+              <input class="form-input" id="f-obs" type="text" placeholder="Detalhes adicionais..." />
+            </div>
+          </div>
+
+          <button class="btn-primary" onclick="registrarTx()">Registrar movimentação</button>
+        </div>
+
+        <!-- IA sugestão -->
+        <div class="ai-insight-hero" style="margin-top:0;">
+          <div class="ai-orb">✨</div>
+          <div>
+            <div class="ai-tag">Dica da IA</div>
+            <div class="ai-text">Você pode enviar foto de comprovantes ou cupons fiscais e a IA vai preencher os dados automaticamente. Essa funcionalidade estará disponível na versão completa!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: EXTRATO ════════════ -->
+    <div id="page-extrato" class="page">
+      <div class="page-header">
+        <h1>Extrato completo</h1>
+        <p>Histórico de todas as suas movimentações</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+          <select class="form-select" style="flex:1;min-width:120px;" id="filtro-tipo" onchange="renderExtrato()">
+            <option value="">Todos os tipos</option>
+            <option value="entrada">Entradas</option>
+            <option value="saida">Saídas</option>
+          </select>
+          <select class="form-select" style="flex:1;min-width:140px;" id="filtro-cat" onchange="renderExtrato()">
+            <option value="">Todas as categorias</option>
+            <option>🍔 Alimentação</option>
+            <option>🏠 Moradia</option>
+            <option>🚗 Transporte</option>
+            <option>💊 Saúde</option>
+            <option>🎮 Lazer</option>
+            <option>💼 Salário</option>
+            <option>💻 Freelance</option>
+          </select>
+        </div>
+        <div id="extrato-list"></div>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: METAS ════════════ -->
+    <div id="page-metas" class="page">
+      <div class="page-header">
+        <h1>Minhas metas</h1>
+        <p>Acompanhe o progresso dos seus objetivos financeiros</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🏖️ Reserva de emergência</div></div>
+          <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--green)">R$ 7.200</div>
+          <div style="font-size:13px;color:var(--text-muted);margin:4px 0 12px;">de R$ 12.000 · 60%</div>
+          <div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Faltam R$ 4.800 · Previsão: agosto 2025</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🚗 Carro novo</div></div>
+          <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--blue)">R$ 12.000</div>
+          <div style="font-size:13px;color:var(--text-muted);margin:4px 0 12px;">de R$ 40.000 · 30%</div>
+          <div class="prog-bar"><div class="prog-fill blue" style="width:30%"></div></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Faltam R$ 28.000 · Previsão: 2027</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">✈️ Viagem — Europa</div></div>
+          <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--amber)">R$ 3.500</div>
+          <div style="font-size:13px;color:var(--text-muted);margin:4px 0 12px;">de R$ 8.000 · 44%</div>
+          <div class="prog-bar"><div class="prog-fill amber" style="width:44%"></div></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Faltam R$ 4.500 · Previsão: dez 2025</div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;border-style:dashed;cursor:pointer;" onclick="showToast('Criação de metas disponível em breve! 🚀')">
+          <div style="font-size:36px;margin-bottom:8px;">+</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-muted)">Nova meta</div>
+          <div style="font-size:12px;color:var(--text-hint);margin-top:4px;">Clique para adicionar</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: POINTSPAY ════════════ -->
+    <div id="page-pointspay" class="page">
+      <div class="page-header">
+        <h1>Pointspay</h1>
+        <p>Seu programa de recompensas por disciplina financeira</p>
+      </div>
+
+      <div class="pts-hero">
+        <div>
+          <div class="pts-hero-label">Seu saldo</div>
+          <div class="pts-hero-val" id="pts-hero-val">1.240</div>
+          <div class="pts-hero-sub">+80 pontos ganhos hoje · +200 esta semana</div>
+        </div>
+        <div class="pts-level-badge">
+          <span class="pts-level-icon">⚡</span>
+          <div class="pts-level-name">Prata</div>
+        </div>
+      </div>
+
+      <!-- Níveis -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:1rem;">Evolução de nível</div>
+        <div class="level-grid">
+          <div class="level-card">
+            <div class="level-icon">🌱</div>
+            <div class="level-name">Bronze</div>
+            <div class="level-pts">0 – 500 pts</div>
+          </div>
+          <div class="level-card current">
+            <div class="level-icon">⚡</div>
+            <div class="level-name">Prata</div>
+            <div class="level-pts">500 – 2.000 pts</div>
+          </div>
+          <div class="level-card">
+            <div class="level-icon">💎</div>
+            <div class="level-name">Ouro</div>
+            <div class="level-pts">2.000 – 5.000 pts</div>
+          </div>
+          <div class="level-card">
+            <div class="level-icon">🏆</div>
+            <div class="level-name">Elite</div>
+            <div class="level-pts">5.000+ pts</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:5px;">
+          <span>Prata → Ouro</span><span id="pts-prog-label">1.240 / 2.000 pts</span>
+        </div>
+        <div class="prog-bar" style="height:10px;"><div class="prog-fill" id="pts-prog-bar" style="width:62%"></div></div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Faltam <strong id="pts-faltam">760</strong> pontos para o nível Ouro 💎</div>
+      </div>
+
+      <!-- Desafios -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Desafios ativos</div>
+          <div style="font-size:12px;color:var(--text-muted)">Renovam toda semana</div>
+        </div>
+        <div>
+          <div class="challenge-item">
+            <div class="challenge-icon">📅</div>
+            <div class="challenge-info">
+              <div class="challenge-name">7 dias de registros</div>
+              <div class="challenge-desc">Registre pelo menos 1 movimentação por dia</div>
+              <div class="prog-bar" style="margin-top:8px;"><div class="prog-fill" style="width:100%"></div></div>
+              <div style="font-size:11px;color:var(--green);margin-top:3px;font-weight:600;">Completo! Aguardando crédito...</div>
+            </div>
+            <div class="challenge-pts">+100 pts</div>
+          </div>
+          <div class="challenge-item">
+            <div class="challenge-icon">🏦</div>
+            <div class="challenge-info">
+              <div class="challenge-name">Meta de poupança</div>
+              <div class="challenge-desc">Atinja R$ 1.000 guardados este mês</div>
+              <div class="prog-bar" style="margin-top:8px;"><div class="prog-fill" style="width:72%"></div></div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">72% concluído</div>
+            </div>
+            <div class="challenge-pts">+200 pts</div>
+          </div>
+          <div class="challenge-item">
+            <div class="challenge-icon">✂️</div>
+            <div class="challenge-info">
+              <div class="challenge-name">Corte de lazer</div>
+              <div class="challenge-desc">Reduza gastos com lazer em 20% vs mês anterior</div>
+              <div class="prog-bar" style="margin-top:8px;"><div class="prog-fill amber" style="width:40%"></div></div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">40% concluído</div>
+            </div>
+            <div class="challenge-pts">+150 pts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recompensas -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">Resgatar recompensas</div></div>
+        <div class="reward-grid">
+          <div class="reward-card">
+            <span class="reward-emoji">💸</span>
+            <div class="reward-name">Cashback 5%</div>
+            <div class="reward-partner">Compras no app parceiro</div>
+            <div class="reward-pts-row">
+              <div class="reward-pts">500 pts</div>
+              <button class="btn-resgate" onclick="resgatar('Cashback 5%', 500)">Resgatar</button>
+            </div>
+          </div>
+          <div class="reward-card">
+            <span class="reward-emoji">⭐</span>
+            <div class="reward-name">Premium — 1 mês</div>
+            <div class="reward-partner">Funcionalidades avançadas</div>
+            <div class="reward-pts-row">
+              <div class="reward-pts">1.000 pts</div>
+              <button class="btn-resgate" onclick="resgatar('Premium 1 mês', 1000)">Resgatar</button>
+            </div>
+          </div>
+          <div class="reward-card">
+            <span class="reward-emoji">🏪</span>
+            <div class="reward-name">Desconto parceiro</div>
+            <div class="reward-partner">Lojas selecionadas</div>
+            <div class="reward-pts-row">
+              <div class="reward-pts">300 pts</div>
+              <button class="btn-resgate" onclick="resgatar('Desconto parceiro', 300)">Resgatar</button>
+            </div>
+          </div>
+          <div class="reward-card">
+            <span class="reward-emoji">🎁</span>
+            <div class="reward-name">Brinde digital</div>
+            <div class="reward-partner">Surprise exclusivo</div>
+            <div class="reward-pts-row">
+              <div class="reward-pts">200 pts</div>
+              <button class="btn-resgate" onclick="resgatar('Brinde digital', 200)">Resgatar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Como ganhar pontos -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:1rem;">Como ganhar Pointspay</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+            <span>📝 Registrar movimentação</span><strong style="color:var(--green)">+20 pts</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+            <span>🔥 Manter sequência diária</span><strong style="color:var(--green)">+10 pts/dia</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+            <span>🎯 Completar desafio semanal</span><strong style="color:var(--green)">+100–200 pts</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+            <span>✅ Atingir meta financeira</span><strong style="color:var(--green)">+300 pts</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+            <span>📊 Completar diagnóstico</span><strong style="color:var(--green)">+50 pts</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ PAGE: IA ════════════ -->
+    <div id="page-ia" class="page">
+      <div class="page-header">
+        <h1>IA Financeira</h1>
+        <p>Análise inteligente baseada no seu comportamento</p>
+      </div>
+
+      <!-- Insight destaque -->
+      <div class="ai-insight-hero">
+        <div class="ai-orb">🤖</div>
+        <div>
+          <div class="ai-tag">Análise da semana · 23/03/2025</div>
+          <div class="ai-text">
+            Parabéns! Você manteve sua sequência de 7 dias e está acima da média dos usuários Prata. Seus gastos com alimentação cresceram 18% em relação ao mês passado — considere revisar refeições fora de casa para ampliar sua margem de poupança sem comprometer a qualidade de vida.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Insights -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Insights personalizados</div></div>
+          <div>
+            <div class="insight-item">
+              <div class="insight-dot g"></div>
+              <div class="insight-text">Sua taxa de poupança de <strong>72%</strong> está acima da média de usuários com perfil similar. Continue assim!</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot a"></div>
+              <div class="insight-text">Assinaturas somam <strong>R$ 180/mês</strong>. Revise quais realmente usa — economia potencial de até R$ 80.</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot r"></div>
+              <div class="insight-text">Conta de energia vence em <strong>3 dias</strong>. Não esqueça de quitar para manter seu score em dia.</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot g"></div>
+              <div class="insight-text">Se manter o ritmo atual, você atingirá a meta de reserva de emergência em <strong>agosto</strong>.</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot a"></div>
+              <div class="insight-text">Gastos com lazer representam <strong>15%</strong> do orçamento. O ideal recomendado é até 10%.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metas progresso -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Progresso das metas</div></div>
+          <div class="goals-list">
+            <div class="goal-item">
+              <div class="goal-row">
+                <span class="goal-name">🏖️ Reserva de emergência</span>
+                <span class="goal-pct">60%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-row">
+                <span class="goal-name">🚗 Carro novo</span>
+                <span class="goal-pct">30%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill blue" style="width:30%"></div></div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-row">
+                <span class="goal-name">✈️ Europa</span>
+                <span class="goal-pct">44%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill amber" style="width:44%"></div></div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-row">
+                <span class="goal-name">📅 Desafio semanal</span>
+                <span class="goal-pct">100%</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Previsão mensal -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">Previsão para o fim do mês</div></div>
+        <div class="grid-3">
+          <div style="text-align:center;padding:12px;">
+            <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Receita prevista</div>
+            <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--green)">R$ 4.600</div>
+          </div>
+          <div style="text-align:center;padding:12px;">
+            <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Gasto previsto</div>
+            <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--red)">R$ 2.950</div>
+          </div>
+          <div style="text-align:center;padding:12px;">
+            <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Poupança estimada</div>
+            <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--blue)">R$ 1.650</div>
+          </div>
+        </div>
+        <div style="background:var(--green-pale);border:1px solid rgba(29,158,117,0.2);border-radius:var(--r-sm);padding:10px 14px;margin-top:0.75rem;font-size:13px;color:var(--green-dark);">
+          💡 Dica: Reduzindo R$ 150 em alimentação, você pode economizar R$ 1.800 até o fim do mês — acelerando sua reserva de emergência em 3 semanas.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <button class="mob-btn active" id="mob-dashboard" onclick="showPage('dashboard',this);updateMobile('dashboard')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Início
+  </button>
+  <button class="mob-btn" id="mob-registrar" onclick="showPage('registrar',this);updateMobile('registrar')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+    Registrar
+  </button>
+  <button class="mob-btn" id="mob-pointspay" onclick="showPage('pointspay',this);updateMobile('pointspay')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    Pointspay
+  </button>
+  <button class="mob-btn" id="mob-ia" onclick="showPage('ia',this);updateMobile('ia')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-5 0v-15A2.5 2.5 0 019.5 2zM14.5 8A2.5 2.5 0 0117 10.5v9a2.5 2.5 0 01-5 0v-9A2.5 2.5 0 0114.5 8z"/></svg>
+    IA
+  </button>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── STATE ──
+  let state = {
+    pts: 1240,
+    saldo: 3420,
+    entradas: 4600,
+    saidas: 2180,
+    tipo: 'entrada',
+    transactions: [
+      { desc:'Salário março', cat:'💼 Salário', val:4000, tipo:'entrada', data:'22/03/2025', conta:'Conta corrente' },
+      { desc:'Supermercado BH', cat:'🍔 Alimentação', val:280, tipo:'saida', data:'21/03/2025', conta:'Cartão de crédito' },
+      { desc:'Freelance — Logo', cat:'💻 Freelance', val:600, tipo:'entrada', data:'20/03/2025', conta:'PIX' },
+      { desc:'Uber', cat:'🚗 Transporte', val:45, tipo:'saida', data:'19/03/2025', conta:'Cartão de crédito' },
+      { desc:'Restaurante', cat:'🍔 Alimentação', val:120, tipo:'saida', data:'18/03/2025', conta:'Dinheiro' },
+      { desc:'Netflix + Spotify', cat:'🎮 Lazer', val:65, tipo:'saida', data:'17/03/2025', conta:'Cartão de crédito' },
+      { desc:'Farmácia', cat:'💊 Saúde', val:90, tipo:'saida', data:'15/03/2025', conta:'Dinheiro' },
+      { desc:'Aluguel', cat:'🏠 Moradia', val:950, tipo:'saida', data:'05/03/2025', conta:'Conta corrente' },
+    ]
+  };
+
+  // ── NAVIGATION ──
+  const pageNames = { dashboard:'Dashboard', registrar:'Nova Movimentação', extrato:'Extrato', metas:'Metas', pointspay:'Pointspay', ia:'IA Financeira' };
+
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (btn && btn.classList.contains('nav-item')) btn.classList.add('active');
+    document.getElementById('topbar-title').textContent = pageNames[id] || id;
+    if (id === 'extrato') renderExtrato();
+  }
+
+  function updateMobile(id) {
+    document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active'));
+    const el = document.getElementById('mob-' + id);
+    if (el) el.classList.add('active');
+  }
+
+  // ── ONBOARDING ──
+  let curStep = 1;
+
+  function nextStep(n) {
+    document.getElementById('step-' + curStep).classList.remove('active');
+    curStep = n;
+    document.getElementById('step-' + n).classList.add('active');
+  }
+
+  function closeOverlay() {
+    document.getElementById('overlay').classList.add('hidden');
+    showToast('Bem-vindo ao HabitBank! +200 Pointspay de bônus 🎉', true);
+    state.pts += 200;
+    updatePtsUI();
+  }
+
+  function selectProfile(btn) {
+    document.querySelectorAll('.profile-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  // ── TIPO DE TRANSAÇÃO ──
+  function setTipo(t) {
+    state.tipo = t;
+    document.getElementById('btn-entrada').classList.toggle('active', t === 'entrada');
+    document.getElementById('btn-saida').classList.toggle('active', t === 'saida');
+  }
+
+  // ── REGISTRAR TX ──
+  function registrarTx() {
+    const desc = document.getElementById('f-desc').value.trim();
+    const val  = parseFloat(document.getElementById('f-val').value);
+    const cat  = document.getElementById('f-cat').value;
+    const data = document.getElementById('f-data').value;
+    const conta = document.getElementById('f-conta').value;
+
+    if (!desc || !val || val <= 0) { showToast('Preencha descrição e valor!'); return; }
+
+    const d = data ? new Date(data + 'T00:00:00') : new Date();
+    const dataFmt = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+
+    state.transactions.unshift({ desc, cat, val, tipo: state.tipo, data: dataFmt, conta });
+    state.pts += 20;
+
+    if (state.tipo === 'entrada') {
+      state.entradas += val;
+      state.saldo += val;
+    } else {
+      state.saidas += val;
+      state.saldo -= val;
+    }
+
+    updatePtsUI();
+    updateBalanceUI();
+    renderDashTx();
+    document.getElementById('f-desc').value = '';
+    document.getElementById('f-val').value = '';
+    showToast('+20 Pointspay ganhos! Movimentação registrada ✅', true);
+  }
+
+  // ── RESGATAR ──
+  function resgatar(nome, pts) {
+    if (state.pts < pts) { showToast('Pontos insuficientes para resgatar!'); return; }
+    state.pts -= pts;
+    updatePtsUI();
+    showToast(nome + ' resgatado com sucesso! 🎁', true);
+  }
+
+  // ── UI UPDATES ──
+  function updatePtsUI() {
+    const f = n => n.toLocaleString('pt-BR');
+    document.getElementById('pts-display').textContent = f(state.pts) + ' pts';
+    document.getElementById('metric-pts').textContent = f(state.pts);
+    document.getElementById('pts-hero-val').textContent = f(state.pts);
+    const prog = Math.min(100, Math.round((state.pts - 500) / 15));
+    document.getElementById('pts-prog-bar').style.width = prog + '%';
+    document.getElementById('pts-prog-label').textContent = f(state.pts) + ' / 2.000 pts';
+    const faltam = Math.max(0, 2000 - state.pts);
+    document.getElementById('pts-faltam').textContent = f(faltam);
+  }
+
+  function updateBalanceUI() {
+    const fmt = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2});
+    document.getElementById('hero-saldo').textContent = fmt(state.saldo);
+    document.getElementById('hero-entrada').textContent = '+ R$ ' + state.entradas.toLocaleString('pt-BR');
+    document.getElementById('hero-saida').textContent = '− R$ ' + state.saidas.toLocaleString('pt-BR');
+    document.getElementById('metric-gastos').textContent = 'R$ ' + state.saidas.toLocaleString('pt-BR');
+  }
+
+  // ── RENDER DASH TRANSACTIONS ──
+  function renderDashTx() {
+    const iconMap = { '💼 Salário':'green','💻 Freelance':'green','🍔 Alimentação':'red','🏠 Moradia':'amber','🚗 Transporte':'blue','💊 Saúde':'amber','🎮 Lazer':'red','👗 Vestuário':'blue','📚 Educação':'blue','📦 Outros':'amber' };
+    const list = document.getElementById('dash-tx-list');
+    list.innerHTML = state.transactions.slice(0,5).map(t => {
+      const cls = iconMap[t.cat] || 'blue';
+      const sign = t.tipo === 'entrada' ? '+' : '−';
+      const valCls = t.tipo === 'entrada' ? 'plus' : 'minus';
+      const emoji = t.cat.split(' ')[0];
+      return `
+        <div class="tx-item">
+          <div class="tx-left">
+            <div class="tx-icon ${cls}">${emoji}</div>
+            <div>
+              <div class="tx-name">${t.desc}</div>
+              <div class="tx-cat">${t.cat.replace(/^\S+\s/,'')} · ${t.conta}</div>
+            </div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-val ${valCls}">${sign} R$ ${t.val.toLocaleString('pt-BR')}</div>
+            <div class="tx-date">${t.data}</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── RENDER EXTRATO ──
+  function renderExtrato() {
+    const filterTipo = document.getElementById('filtro-tipo').value;
+    const filterCat  = document.getElementById('filtro-cat').value;
+    const iconMap = { '💼 Salário':'green','💻 Freelance':'green','🍔 Alimentação':'red','🏠 Moradia':'amber','🚗 Transporte':'blue','💊 Saúde':'amber','🎮 Lazer':'red','👗 Vestuário':'blue','📚 Educação':'blue','📦 Outros':'amber' };
+    const list = document.getElementById('extrato-list');
+    const filtered = state.transactions.filter(t => {
+      if (filterTipo && t.tipo !== filterTipo) return false;
+      if (filterCat && !t.cat.includes(filterCat.replace(/^\S+\s/,''))) return false;
+      return true;
+    });
+    if (!filtered.length) { list.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:14px;">Nenhuma movimentação encontrada.</div>'; return; }
+    list.innerHTML = filtered.map(t => {
+      const cls = iconMap[t.cat] || 'blue';
+      const sign = t.tipo === 'entrada' ? '+' : '−';
+      const valCls = t.tipo === 'entrada' ? 'plus' : 'minus';
+      const emoji = t.cat.split(' ')[0];
+      return `
+        <div class="tx-item">
+          <div class="tx-left">
+            <div class="tx-icon ${cls}">${emoji}</div>
+            <div>
+              <div class="tx-name">${t.desc}</div>
+              <div class="tx-cat">${t.cat.replace(/^\S+\s/,'')} · ${t.conta}</div>
+            </div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-val ${valCls}">${sign} R$ ${t.val.toLocaleString('pt-BR')}</div>
+            <div class="tx-date">${t.data}</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── STREAK CALENDAR ──
+  function renderStreak() {
+    const grid = document.getElementById('streak-grid');
+    const days = ['S','T','Q','Q','S','S','D','S','T','Q','Q','S','S','D','S','T','Q','Q','S','S','D','S','T'];
+    grid.innerHTML = days.map((d, i) => {
+      let cls = '';
+      if (i < 16) cls = 'done';
+      else if (i < 20) cls = 'done';
+      else if (i === 22) cls = 'today';
+      else if (i === 21) cls = 'missed';
+      return `<div class="s-day ${cls}" title="Dia ${i+1}">${d}</div>`;
+    }).join('');
+  }
+
+  // ── BAR CHART ──
+  function renderBarChart() {
+    const weeks = [
+      { lbl:'S1', rec:1400, desp:820 },
+      { lbl:'S2', rec:1200, desp:680 },
+      { lbl:'S3', rec:1600, desp:540 },
+      { lbl:'S4', rec:400,  desp:140 },
+    ];
+    const max = Math.max(...weeks.flatMap(w => [w.rec, w.desp]));
+    const chart = document.getElementById('bar-chart');
+    chart.innerHTML = weeks.map(w => `
+      <div class="bar-wrap" style="gap:0;flex-direction:column;justify-content:flex-end;align-items:center;">
+        <div style="display:flex;gap:4px;align-items:flex-end;height:90px;">
+          <div class="bar g" style="width:22px;height:${Math.round((w.rec/max)*90)}px;"></div>
+          <div class="bar r" style="width:22px;height:${Math.round((w.desp/max)*90)}px;"></div>
+        </div>
+        <div class="bar-lbl" style="margin-top:6px;">${w.lbl}</div>
+      </div>
+    `).join('');
+  }
+
+  // ── DATE DEFAULT ──
+  const dfInput = document.getElementById('f-data');
+  if (dfInput) {
+    dfInput.value = new Date().toISOString().split('T')[0];
+  }
+
+  // ── TOAST ──
+  function showToast(msg, green = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (green ? ' green-toast' : '') + ' show';
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── INIT ──
+  renderDashTx();
+  renderStreak();
+  renderBarChart();
+  updatePtsUI();
+  updateBalanceUI();
+</script>
+</body>
+</html>
