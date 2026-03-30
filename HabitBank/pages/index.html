@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>HabitBank — Beta v3</title>
+<link rel="icon" href="favicon.png" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1D9E75;--gdark:#085041;--gmid:#0F6E56;--glight:#E1F5EE;--gpale:#f0faf6;
+  --amber:#BA7517;--alight:#FAEEDA;--red:#E24B4A;--rlight:#FCEBEB;
+  --blue:#185FA5;--blight:#E6F1FB;--purple:#534AB7;--plight:#EEEDFE;
+  --jr:#0ea5e9;--jrdark:#0369a1;--jrlight:#e0f2fe;
+  --tx:#1a1a1a;--mu:#6b7280;--ht:#9ca3af;
+  --bg:#f8f9f7;--sf:#fff;--sf2:#f3f4f2;
+  --bd:rgba(0,0,0,.08);--bdm:rgba(0,0,0,.13);
+  --s1:0 1px 4px rgba(0,0,0,.06);--s2:0 4px 16px rgba(0,0,0,.08);--s3:0 8px 32px rgba(0,0,0,.12);
+  --ra:8px;--rb:12px;--rc:18px;--rd:24px;
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh;font-size:15px;line-height:1.5}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.on{display:flex}
+#sa.on{display:block}
+
+/* ===== LOGIN ===== */
+#sl.on{flex-direction:row;align-items:stretch}
+.ll{flex:1;background:linear-gradient(145deg,var(--gdark),var(--green) 55%,#2ec090);display:flex;flex-direction:column;justify-content:center;padding:4rem;position:relative;overflow:hidden}
+.ll::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07)}
+.ll::after{content:'';position:absolute;bottom:-100px;left:-60px;width:350px;height:350px;border-radius:50%;background:rgba(255,255,255,.05)}
+.ll-z{position:relative;z-index:1}
+.ll-brand{font-family:var(--fd);font-size:36px;font-weight:800;color:#fff;margin-bottom:.5rem}
+.ll-brand span{opacity:.5}
+.ll-tag{font-size:17px;color:rgba(255,255,255,.85);line-height:1.55;max-width:340px;margin-bottom:2.5rem}
+.ll-feats{display:flex;flex-direction:column;gap:14px}
+.ll-feat{display:flex;align-items:center;gap:12px}
+.ll-ico{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ll-txt{font-size:14px;color:rgba(255,255,255,.85)}
+.lr{width:480px;flex-shrink:0;background:var(--sf);display:flex;flex-direction:column;justify-content:center;padding:3rem 3.5rem;overflow-y:auto}
+.lr-logo{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--green);margin-bottom:2rem}
+.lr-logo span{color:var(--tx);opacity:.4}
+.ltabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:1.75rem}
+.ltab{font-family:var(--fb);font-size:14px;font-weight:500;padding:8px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--mu);cursor:pointer;margin-bottom:-1px;transition:all .15s}
+.ltab.on{color:var(--green);border-bottom-color:var(--green)}
+.lf{display:flex;flex-direction:column;gap:14px}
+.lf.hide{display:none}
+.lh1{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--tx);margin-bottom:6px}
+.lsub{font-size:14px;color:var(--mu);margin-bottom:1.5rem}
+.lfield{display:flex;flex-direction:column;gap:5px}
+.llbl{font-size:12px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}
+.lin{font-family:var(--fb);font-size:14px;padding:11px 14px;border:1px solid var(--bdm);border-radius:var(--ra);background:var(--sf2);color:var(--tx);outline:none;transition:all .15s;width:100%}
+.lin:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px var(--glight)}
+.lforgot{font-size:12px;color:var(--green);text-align:right;cursor:pointer;margin-top:2px}
+.btn-l{font-family:var(--fb);padding:13px;background:var(--green);color:#fff;border:none;border-radius:var(--ra);font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:4px;transition:opacity .15s}
+.btn-l:hover{opacity:.88}
+.ldiv{display:flex;align-items:center;gap:12px;color:var(--ht);font-size:13px}
+.ldiv::before,.ldiv::after{content:'';flex:1;height:1px;background:var(--bd)}
+.btn-soc{font-family:var(--fb);padding:11px;background:var(--sf2);color:var(--tx);border:1px solid var(--bdm);border-radius:var(--ra);font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:all .15s}
+.btn-soc:hover{border-color:var(--green);background:var(--gpale)}
+.lfoot{font-size:12px;color:var(--mu);text-align:center;margin-top:1rem}
+.lfoot a{color:var(--green);cursor:pointer}
+
+/* ===== LANDING ===== */
+#sla .ltopbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between}
+.lland-logo{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--green)}
+.lland-logo span{color:var(--tx);opacity:.4}
+.btn-ol{font-family:var(--fb);font-size:13px;font-weight:600;padding:7px 16px;border:1px solid var(--green);border-radius:999px;color:var(--green);background:transparent;cursor:pointer;transition:all .15s}
+.btn-ol:hover{background:var(--green);color:#fff}
+.btn-fl{font-family:var(--fb);font-size:13px;font-weight:600;padding:7px 16px;border:none;border-radius:999px;color:#fff;background:var(--green);cursor:pointer;transition:opacity .15s}
+.btn-fl:hover{opacity:.85}
+.lhero{max-width:900px;margin:0 auto;padding:5rem 2rem 3rem;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--glight);border:1px solid rgba(29,158,117,.25);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--gdark);letter-spacing:.04em;text-transform:uppercase;margin-bottom:1.5rem}
+.lhero h1{font-family:var(--fd);font-size:clamp(32px,5vw,54px);font-weight:800;line-height:1.1;color:var(--tx);margin-bottom:1.25rem}
+.lhero h1 em{color:var(--green);font-style:normal}
+.lhero p{font-size:17px;color:var(--mu);max-width:560px;margin:0 auto 2.5rem;line-height:1.65}
+.cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:4rem}
+.btn-cta{font-family:var(--fb);font-size:16px;font-weight:700;padding:14px 32px;background:var(--green);color:#fff;border:none;border-radius:999px;cursor:pointer;box-shadow:0 4px 20px rgba(29,158,117,.35);transition:all .15s}
+.btn-cta:hover{opacity:.88;transform:translateY(-1px)}
+.btn-cta2{font-family:var(--fb);font-size:16px;font-weight:600;padding:14px 32px;background:transparent;color:var(--tx);border:1px solid var(--bdm);border-radius:999px;cursor:pointer;transition:all .15s}
+.btn-cta2:hover{border-color:var(--green);color:var(--green)}
+.pillars{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0 2rem 3rem}
+.pillar{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rd);padding:1.75rem 1.5rem;box-shadow:var(--s1);transition:all .2s}
+.pillar:hover{box-shadow:var(--s2);transform:translateY(-3px)}
+.p-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:1rem}
+.p-ico.g{background:var(--glight)}.p-ico.a{background:var(--alight)}.p-ico.b{background:var(--blight)}.p-ico.p{background:var(--plight)}
+.pillar h3{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.pillar p{font-size:13px;color:var(--mu);line-height:1.6}
+.prof-sec{max-width:900px;margin:0 auto;padding:0 2rem 4rem;text-align:center}
+.sec-ttl{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--tx);margin-bottom:6px}
+.sec-sub{font-size:15px;color:var(--mu);margin-bottom:2rem}
+.prof-cards{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.pc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.5rem 1.25rem;width:170px;text-align:center;cursor:pointer;transition:all .2s}
+.pc:hover{border-color:var(--green);box-shadow:0 0 0 3px var(--glight);transform:translateY(-2px)}
+.pc.jr{border-color:var(--jr)}.pc.jr:hover{box-shadow:0 0 0 3px var(--jrlight)}
+.pc-ico{font-size:36px;margin-bottom:10px;display:block}
+.pc-name{font-size:15px;font-weight:700;color:var(--tx)}
+.pc-desc{font-size:12px;color:var(--mu);margin-top:4px}
+.land-footer{background:var(--sf);border-top:1px solid var(--bd);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--mu);flex-wrap:wrap;gap:12px;margin-top:auto}
+
+/* ===== APP SHELL ===== */
+.shell{display:flex;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{width:230px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:1.5rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.s-logo{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--green);letter-spacing:-.5px;margin-bottom:.25rem;padding:0 .5rem}
+.s-logo span{color:var(--tx);opacity:.4}
+.s-beta{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--glight);color:var(--gdark);padding:2px 8px;border-radius:999px;margin:0 0 1.5rem .5rem}
+.nav-grp{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ht);font-weight:600;padding:0 .5rem;margin:.9rem 0 .4rem}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--ra);cursor:pointer;font-size:14px;font-weight:500;color:var(--mu);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--fb)}
+.ni:hover{background:var(--glight);color:var(--gdark)}
+.ni.on{background:var(--green);color:#fff}
+.ni.jr-nav:hover{background:var(--jrlight);color:var(--jrdark)}
+.ni.jr-nav.on{background:var(--jr);color:#fff}
+.ni svg{width:18px;height:18px;opacity:.65;flex-shrink:0}
+.ni.on svg{opacity:1}
+.sb-foot{margin-top:auto;padding-top:1rem;border-top:1px solid var(--bd)}
+.uchip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rb);background:var(--sf2);cursor:pointer;transition:background .15s}
+.uchip:hover{background:var(--glight)}
+.uava{width:34px;height:34px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.un{font-size:13px;font-weight:500;color:var(--tx)}
+.ul{font-size:11px;color:var(--mu)}
+.main{flex:1;overflow-y:auto;min-width:0}
+.topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.875rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.tb-ttl{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--tx)}
+.tb-r{display:flex;align-items:center;gap:12px}
+.pts-chip{display:flex;align-items:center;gap:6px;background:var(--alight);border:1px solid rgba(186,117,23,.2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--amber)}
+.nb{width:36px;height:36px;border-radius:50%;background:var(--sf2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;transition:background .15s}
+.nb:hover{background:var(--glight)}
+.nb-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--sf)}
+
+/* MOBILE TOPBAR */
+.mob-top{display:none;background:var(--sf);border-bottom:1px solid var(--bd);padding:.75rem 1rem;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.mob-logo{font-family:var(--fd);font-size:20px;font-weight:800;color:var(--green)}
+.mob-logo span{color:var(--tx);opacity:.4}
+
+/* PAGE */
+.page{display:none;padding:2rem;animation:fi .2s ease}
+.page.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:1.75rem}
+.ph h1{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--tx);line-height:1.15}
+.ph p{font-size:14px;color:var(--mu);margin-top:5px}
+
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:1.5rem}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+
+/* METRIC */
+.met{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.1rem 1.25rem;box-shadow:var(--s1);transition:all .2s}
+.met:hover{box-shadow:var(--s2);transform:translateY(-2px)}
+.m-lbl{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.m-val{font-family:var(--fd);font-size:24px;font-weight:800;line-height:1}
+.m-val.g{color:var(--green)}.m-val.r{color:var(--red)}.m-val.a{color:var(--amber)}.m-val.b{color:var(--blue)}
+.m-sub{font-size:12px;color:var(--mu);margin-top:5px}
+.m-bdg{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;margin-top:5px}
+.m-bdg.up{background:var(--glight);color:var(--gdark)}.m-bdg.dn{background:var(--rlight);color:var(--red)}
+
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.25rem 1.5rem;box-shadow:var(--s1);margin-bottom:1.25rem}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.c-ttl{font-size:14px;font-weight:600;color:var(--tx)}
+.c-act{font-size:12px;color:var(--green);font-weight:500;cursor:pointer;background:none;border:none;font-family:var(--fb)}
+.c-act:hover{text-decoration:underline}
+
+/* BALANCE HERO */
+.bhero{background:linear-gradient(135deg,var(--gdark),var(--green) 60%,#2ec090);border-radius:var(--rd);padding:2rem;color:#fff;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.bhero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07)}
+.bhero::after{content:'';position:absolute;bottom:-60px;left:30%;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.05)}
+.b-lbl{font-size:12px;opacity:.75;text-transform:uppercase;letter-spacing:.08em}
+.b-amt{font-family:var(--fd);font-size:42px;font-weight:800;line-height:1.1;margin:6px 0}
+.b-row{display:flex;gap:24px;margin-top:1.25rem;flex-wrap:wrap}
+.b-sl{font-size:11px;opacity:.7}.b-sv{font-size:16px;font-weight:600;margin-top:2px}
+.b-sv.in{color:#86efcb}.b-sv.out{color:#fca5a5}
+
+/* PROGRESS */
+.pb{height:8px;background:var(--sf2);border-radius:999px;overflow:hidden;margin:4px 0}
+.pf{height:100%;border-radius:999px;background:var(--green);transition:width .6s ease}
+.pf.a{background:var(--amber)}.pf.r{background:var(--red)}.pf.b{background:var(--blue)}.pf.j{background:var(--jr)}.pf.p{background:var(--purple)}
+
+/* STREAK */
+.sgrid{display:flex;flex-wrap:wrap;gap:5px}
+.sd{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;background:var(--sf2);color:var(--ht);border:1px solid var(--bd)}
+.sd.dn{background:var(--green);color:#fff;border-color:var(--green)}
+.sd.td{background:var(--glight);color:var(--gdark);border-color:var(--green);border-width:2px;font-weight:700}
+.sd.ms{background:var(--rlight);color:var(--red)}
+
+/* TX */
+.txi{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bd)}
+.txi:last-child{border-bottom:none;padding-bottom:0}
+.tx-l{display:flex;align-items:center;gap:12px}
+.tx-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tx-ico.g{background:var(--glight)}.tx-ico.r{background:var(--rlight)}.tx-ico.a{background:var(--alight)}.tx-ico.b{background:var(--blight)}
+.tx-nm{font-size:14px;font-weight:500;color:var(--tx)}
+.tx-ct{font-size:12px;color:var(--mu);margin-top:1px}
+.tx-r{text-align:right}
+.tx-v{font-size:14px;font-weight:700}
+.tx-v.p{color:var(--green)}.tx-v.m{color:var(--red)}
+.tx-dt{font-size:11px;color:var(--ht);margin-top:2px}
+
+/* BAR CHART */
+.bchart{display:flex;align-items:flex-end;gap:8px;height:100px}
+.bw{display:flex;flex-direction:column;align-items:center;flex:1;gap:6px}
+.bar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height .5s cubic-bezier(.34,1.56,.64,1)}
+.bar.g{background:var(--green)}.bar.r{background:var(--red);opacity:.75}
+.bl{font-size:10px;color:var(--ht)}
+
+/* POINTS HERO */
+.ph2{background:linear-gradient(135deg,#0a3d2c,var(--gdark) 50%,var(--gmid));border-radius:var(--rd);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.ph2::before{content:'';position:absolute;top:-30px;right:-30px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06)}
+.phl{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em}
+.phv{font-family:var(--fd);font-size:48px;font-weight:800;color:#fff;line-height:1}
+.phs{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px}
+.pl-bdg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:var(--rb);padding:10px 16px;text-align:center}
+.pl-nm{font-size:15px;font-weight:700;color:#fff}
+.pl-ico{font-size:26px;display:block;margin-bottom:4px}
+
+/* LEVEL GRID */
+.lgr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1rem}
+.lc{border:1px solid var(--bd);border-radius:var(--rb);padding:14px 10px;text-align:center;transition:all .2s}
+.lc.cur{border-color:var(--green);border-width:2px;background:var(--glight)}
+.l-ico{font-size:24px;margin-bottom:5px}
+.l-nm{font-size:13px;font-weight:600;color:var(--tx)}
+.lc.cur .l-nm{color:var(--gdark)}
+.l-pts{font-size:11px;color:var(--mu);margin-top:2px}
+
+/* CHALLENGES */
+.chit{border:1px solid var(--bd);border-radius:var(--rb);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:all .2s}
+.chit:hover{box-shadow:var(--s1)}
+.ch-ico{font-size:24px;flex-shrink:0}
+.ch-inf{flex:1}
+.ch-nm{font-size:14px;font-weight:600;color:var(--tx)}
+.ch-ds{font-size:12px;color:var(--mu);margin-top:2px}
+.ch-pts{font-size:13px;font-weight:700;color:var(--green);background:var(--glight);padding:4px 10px;border-radius:999px;white-space:nowrap}
+
+/* REWARDS */
+.rwg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rwc{border:1px solid var(--bd);border-radius:var(--rb);padding:14px;transition:all .2s}
+.rwc:hover{border-color:var(--green);box-shadow:0 0 0 3px var(--glight)}
+.rw-em{font-size:26px;margin-bottom:6px;display:block}
+.rw-nm{font-size:14px;font-weight:600;color:var(--tx)}
+.rw-pt{font-size:12px;color:var(--mu);margin-top:1px}
+.rw-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.rw-p{font-size:13px;font-weight:700;color:var(--amber)}
+.btn-rs{font-family:var(--fb);font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--ra);border:1px solid var(--green);background:transparent;color:var(--green);cursor:pointer;transition:all .15s}
+.btn-rs:hover{background:var(--green);color:#fff}
+
+/* PTS EXTRATO */
+.pe-i{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bd)}
+.pe-i:last-child{border-bottom:none}
+.pe-l{display:flex;align-items:center;gap:12px}
+.pe-ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.pe-ic.e{background:var(--glight)}.pe-ic.u{background:var(--alight)}.pe-ic.b{background:var(--plight)}
+.pe-nm{font-size:14px;font-weight:500;color:var(--tx)}
+.pe-dt{font-size:12px;color:var(--mu)}
+.pe-v{font-size:14px;font-weight:700}
+.pe-v.e{color:var(--green)}.pe-v.u{color:var(--amber)}
+
+/* FORM */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ff{display:flex;flex-direction:column;gap:5px}
+.ff.full{grid-column:1/-1}
+.flbl{font-size:12px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
+.fi,.fsel{font-family:var(--fb);font-size:14px;padding:10px 13px;border:1px solid var(--bdm);border-radius:var(--ra);background:var(--sf2);color:var(--tx);transition:border-color .15s,box-shadow .15s;outline:none;width:100%}
+.fi:focus,.fsel:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--glight)}
+.ttog{display:flex;border:1px solid var(--bdm);border-radius:var(--ra);overflow:hidden;margin-bottom:14px}
+.tb{flex:1;padding:11px;font-family:var(--fb);font-size:14px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--mu);transition:all .15s}
+.tb.on.e{background:var(--green);color:#fff}.tb.on.s{background:var(--red);color:#fff}
+.btn-pr{font-family:var(--fb);width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:var(--ra);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s;margin-top:6px}
+.btn-pr:hover{opacity:.88}
+
+/* AI */
+.ai-h{background:linear-gradient(135deg,var(--gpale),var(--glight));border:1px solid rgba(29,158,117,.25);border-radius:var(--rd);padding:1.5rem 1.75rem;margin-bottom:1.25rem;display:flex;gap:1rem;align-items:flex-start}
+.ai-orb{width:42px;height:42px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 0 0 6px var(--glight)}
+.ai-tag{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.ai-tx{font-size:14px;color:var(--gdark);line-height:1.65}
+.ii{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bd)}
+.ii:last-child{border-bottom:none}
+.id{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.id.g{background:var(--green)}.id.a{background:var(--amber)}.id.r{background:var(--red)}
+.it{font-size:14px;color:var(--tx);line-height:1.55}
+
+/* HB JUNIOR */
+.jhero{background:linear-gradient(135deg,var(--jrdark),var(--jr) 60%,#38bdf8);border-radius:var(--rd);padding:2rem;color:#fff;margin-bottom:1.5rem;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.jhero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.08)}
+.j-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 12px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.robot{font-size:56px;display:block;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.jchat{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);overflow:hidden;margin-bottom:1.25rem;display:flex;flex-direction:column;height:360px}
+.jmsgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px}
+.jmsg{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5}
+.jmsg.bot{background:var(--jrlight);color:var(--jrdark);align-self:flex-start;border-bottom-left-radius:4px}
+.jmsg.usr{background:var(--green);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.jmsg-s{font-size:11px;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.jchat-in{display:flex;border-top:1px solid var(--bd);padding:.75rem 1rem;gap:10px;align-items:center}
+.jchat-in input{flex:1;font-family:var(--fb);font-size:14px;padding:9px 13px;border:1px solid var(--bdm);border-radius:999px;background:var(--sf2);color:var(--tx);outline:none}
+.jchat-in input:focus{border-color:var(--jr);background:#fff}
+.jchat-send{font-family:var(--fb);padding:9px 18px;background:var(--jr);color:#fff;border:none;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.jchat-send:hover{opacity:.88}
+.kid-row{display:flex;gap:12px;flex-wrap:wrap}
+.kc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.25rem;flex:1;min-width:160px;cursor:pointer;transition:all .2s}
+.kc:hover{border-color:var(--jr);box-shadow:0 0 0 3px var(--jrlight);transform:translateY(-2px)}
+.kc.sel{border-color:var(--jr);border-width:2px;background:var(--jrlight)}
+.k-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:8px}
+.k-nm{font-size:15px;font-weight:700;color:var(--tx)}
+.k-ag{font-size:12px;color:var(--mu);margin-top:2px}
+.k-pt{font-size:13px;font-weight:600;color:var(--jr);margin-top:6px}
+.jtk{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--bd);border-radius:var(--rb);margin-bottom:10px;transition:all .2s}
+.jtk:hover{border-color:var(--jr)}
+.jt-ico{font-size:22px}
+.jt-inf{flex:1}
+.jt-nm{font-size:14px;font-weight:600;color:var(--tx)}
+.jt-ds{font-size:12px;color:var(--mu);margin-top:2px}
+.jt-pt{font-size:13px;font-weight:700;color:var(--jr);background:var(--jrlight);padding:4px 10px;border-radius:999px}
+.allowc{background:var(--jrlight);border:1px solid rgba(14,165,233,.25);border-radius:var(--rc);padding:1.25rem 1.5rem;margin-bottom:1rem}
+
+/* SETTINGS */
+.stabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.stab{font-family:var(--fb);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--bdm);background:transparent;color:var(--mu);cursor:pointer;transition:all .15s;white-space:nowrap}
+.stab:hover{background:var(--glight);color:var(--gdark);border-color:var(--green)}
+.stab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.sp{display:none}
+.sp.on{display:block}
+.ss-ttl{font-size:13px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--bd);gap:12px}
+.srow:last-child{border-bottom:none}
+.s-lbl{font-size:14px;font-weight:500;color:var(--tx)}
+.s-ds{font-size:12px;color:var(--mu);margin-top:2px}
+.tog{width:44px;height:24px;border-radius:999px;background:var(--bdm);border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.tog.on{background:var(--green)}
+.tog.on::after{transform:translateX(20px)}
+.btn-s{font-family:var(--fb);font-size:13px;font-weight:500;padding:6px 14px;border:1px solid var(--bdm);border-radius:var(--ra);background:transparent;color:var(--tx);cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-s:hover{border-color:var(--green);color:var(--green)}
+.bki{display:flex;align-items:center;gap:14px;border:1px solid var(--bd);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;flex-wrap:wrap}
+.bk-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.bk-nm{font-size:14px;font-weight:600;color:var(--tx)}
+.bk-tp{font-size:12px;color:var(--mu);margin-top:2px}
+.bk-bal{font-size:15px;font-weight:700;color:var(--green);margin-left:auto;margin-right:12px}
+.sbdg{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.sbdg.ok{background:var(--glight);color:var(--gdark)}.sbdg.wn{background:var(--alight);color:var(--amber)}.sbdg.jr{background:var(--jrlight);color:var(--jrdark)}
+.ri{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--bd);border-radius:var(--rb);margin-bottom:10px;flex-wrap:wrap}
+.r-ava{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.r-nm{font-size:14px;font-weight:600;color:var(--tx)}
+.r-rl{font-size:12px;color:var(--mu);margin-top:1px}
+.mg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:1.25rem}
+.mc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.1rem 1.25rem;box-shadow:var(--s1)}
+.m-l{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.m-v{font-family:var(--fd);font-size:22px;font-weight:800}
+
+/* SOBRE / CONTATO */
+.about-hero{background:linear-gradient(135deg,var(--gdark),var(--green) 60%,#2ec090);border-radius:var(--rd);padding:3rem 2.5rem;color:#fff;margin-bottom:1.5rem;text-align:center;position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,.06)}
+.ctcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rc);padding:1.75rem;display:flex;align-items:center;gap:18px;transition:all .2s;text-decoration:none;color:inherit}
+.ctcard:hover{box-shadow:var(--s2);border-color:var(--green);transform:translateY(-2px)}
+.ct-ico{width:56px;height:56px;border-radius:var(--rb);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.ct-ico.g{background:var(--glight)}.ct-ico.p{background:var(--plight)}
+.ct-nm{font-size:16px;font-weight:700;color:var(--tx)}
+.ct-vl{font-size:14px;color:var(--green);margin-top:3px}
+.ct-ds{font-size:13px;color:var(--mu);margin-top:2px}
+.vrow{display:flex;align-items:flex-start;gap:16px;padding:14px 0;border-bottom:1px solid var(--bd)}
+.vrow:last-child{border-bottom:none}
+.v-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--glight)}
+
+/* ONBOARDING */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
+.ov.hide{display:none}
+.modal{background:var(--sf);border-radius:var(--rd);padding:2.25rem;max-width:460px;width:100%;box-shadow:var(--s3)}
+.ms{display:none}.ms.on{display:block}
+.m-logo{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green);margin-bottom:.25rem}
+.m-ttl{font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:.5rem;color:var(--tx)}
+.m-sub{font-size:14px;color:var(--mu);line-height:1.6;margin-bottom:1.5rem}
+.m-dots{display:flex;gap:6px;justify-content:center;margin-top:1.25rem}
+.mdot{width:8px;height:8px;border-radius:50%;background:var(--bdm);transition:background .2s}
+.mdot.on{background:var(--green)}
+.btn-m{font-family:var(--fb);width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--ra);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.btn-m:hover{opacity:.88}
+.btn-sk{font-family:var(--fb);background:none;border:none;cursor:pointer;color:var(--mu);font-size:13px;display:block;margin:10px auto 0}
+.popts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.popt{border:1.5px solid var(--bdm);border-radius:var(--rb);padding:12px;cursor:pointer;text-align:center;transition:all .15s;font-family:var(--fb);background:var(--sf)}
+.popt:hover{border-color:var(--green);background:var(--gpale)}
+.popt.on{border-color:var(--green);background:var(--glight)}
+.po-ico{font-size:24px;display:block;margin-bottom:5px}
+.po-nm{font-size:13px;font-weight:600;color:var(--tx)}
+.po-ds{font-size:11px;color:var(--mu);margin-top:2px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:12px 22px;border-radius:999px;font-size:13px;font-weight:500;box-shadow:var(--s3);z-index:300;white-space:nowrap;transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.gt{background:var(--gdark)}
+
+/* MOBILE NAV */
+.mob-nav{display:none}
+
+/* ===============================
+   RESPONSIVE
+=============================== */
+@media(max-width:900px){
+  #sl.on{flex-direction:column;align-items:stretch}
+  .ll{padding:2rem 1.5rem;flex:none;min-height:auto}
+  .ll-brand{font-size:28px}
+  .ll-tag{font-size:15px;margin-bottom:1.5rem}
+  .lr{width:100%;padding:2rem 1.5rem;justify-content:flex-start}
+  .pillars{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding-bottom:72px}
+  .mob-top{display:flex}
+  .topbar{display:none}
+  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);z-index:30;padding:6px 0 10px}
+  .mb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:none;cursor:pointer;font-family:var(--fb);font-size:10px;color:var(--mu);transition:color .15s;padding:2px 0}
+  .mb.on{color:var(--green)}
+  .mb svg{width:22px;height:22px}
+  .page{padding:1rem}
+  .ph h1{font-size:22px}
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:1fr 1fr}
+  .g2{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr}
+  .ff.full{grid-column:1/-1}
+  .rwg{grid-template-columns:1fr}
+  .lgr{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mg3{grid-template-columns:1fr 1fr}
+  .b-amt{font-size:30px}
+  .b-row{gap:14px}
+  .phv{font-size:36px}
+  .pillars{grid-template-columns:1fr;padding:0 1rem 2rem}
+  .lhero{padding:3rem 1rem 2rem}
+  .ltopbar{padding:.75rem 1rem}
+  .prof-sec{padding:0 1rem 3rem}
+  .kid-row{flex-direction:column}
+  .kc{min-width:unset}
+  .jchat{height:300px}
+  .stabs{gap:4px}
+  .stab{font-size:12px;padding:6px 10px}
+  .about-hero{padding:2rem 1.5rem}
+  .bki{flex-wrap:wrap}
+  .bk-bal{margin-left:0;margin-right:0;width:100%}
+}
+@media(max-width:480px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:1fr}
+  .mg3{grid-template-columns:1fr}
+  .b-row{flex-direction:column;gap:10px}
+  .prof-cards{gap:8px}
+  .pc{width:calc(50% - 8px)}
+  .lhero h1{font-size:28px}
+  .cta-row{flex-direction:column;align-items:center}
+  .jhero{flex-direction:column}
+  .robot{font-size:44px}
+  .pillars{grid-template-columns:1fr}
+  .lgr{grid-template-columns:1fr 1fr}
+  .ph2{flex-direction:column;align-items:flex-start}
+}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdm);border-radius:999px}
+</style>
+</head>
+<body>
+
+<!-- ========== LOGIN ========== -->
+<div id="sl" class="screen on">
+  <div class="ll">
+    <div class="ll-z">
+      <div class="ll-brand">Habit<span>Bank</span></div>
+      <div class="ll-tag">Controle financeiro inteligente para toda a familia.</div>
+      <div class="ll-feats">
+        <div class="ll-feat"><div class="ll-ico">&#128202;</div><div class="ll-txt">Controle financeiro simplificado e visual</div></div>
+        <div class="ll-feat"><div class="ll-ico">&#129302;</div><div class="ll-txt">IA ativa com insights personalizados</div></div>
+        <div class="ll-feat"><div class="ll-ico">&#9889;</div><div class="ll-txt">Gamificacao com Pointspay</div></div>
+        <div class="ll-feat"><div class="ll-ico">&#129302;</div><div class="ll-txt">HB Junior - robo educador financeiro</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="lr">
+    <div class="lr-logo">Habit<span>Bank</span></div>
+    <div class="ltabs">
+      <button class="ltab on" onclick="swTab(this,'sf1')">Entrar</button>
+      <button class="ltab" onclick="swTab(this,'sf2')">Criar conta</button>
+    </div>
+    <div class="lf" id="sf1">
+      <div class="lh1">Bem-vindo de volta</div>
+      <div class="lsub">Entre na sua conta HabitBank</div>
+      <div class="lfield"><label class="llbl">E-mail</label><input class="lin" type="email" id="le" value="lucas@habitbank.app"/></div>
+      <div class="lfield"><label class="llbl">Senha</label><input class="lin" type="password" id="lp" value="123456"/><div class="lforgot">Esqueci minha senha</div></div>
+      <button class="btn-l" onclick="doLogin()">Entrar na conta</button>
+      <div class="ldiv">ou</div>
+      <button class="btn-soc" onclick="doLogin()">&#127760; &nbsp;Continuar com Google</button>
+      <div class="lfoot">Nao tem conta? <a onclick="swTab(document.querySelectorAll('.ltab')[1],'sf2')">Crie gratuitamente</a></div>
+    </div>
+    <div class="lf hide" id="sf2">
+      <div class="lh1">Crie sua conta</div>
+      <div class="lsub">Comece sua jornada financeira hoje</div>
+      <div class="lfield"><label class="llbl">Nome completo</label><input class="lin" type="text" placeholder="Lucas Martins"/></div>
+      <div class="lfield"><label class="llbl">E-mail</label><input class="lin" type="email" placeholder="seu@email.com"/></div>
+      <div class="lfield"><label class="llbl">Senha</label><input class="lin" type="password" placeholder="Minimo 8 caracteres"/></div>
+      <div class="lfield"><label class="llbl">Confirmar senha</label><input class="lin" type="password" placeholder="Repita a senha"/></div>
+      <button class="btn-l" onclick="goLanding()">Criar conta gratis</button>
+      <div class="lfoot">Ao criar uma conta voce concorda com os <a>Termos de Uso</a>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LANDING ========== -->
+<div id="sla" class="screen">
+  <div class="ltopbar">
+    <div class="lland-logo">Habit<span>Bank</span></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-ol" onclick="goLogin()">Entrar</button>
+      <button class="btn-fl" onclick="enterApp()">Criar conta</button>
+    </div>
+  </div>
+  <div class="lhero">
+    <div class="eyebrow">&#10024; Versao Beta - Acesso antecipado</div>
+    <h1>Sua vida financeira,<br><em>organizada de verdade.</em></h1>
+    <p>O HabitBank une controle financeiro, inteligencia artificial e gamificacao para transformar sua relacao com o dinheiro e de toda a familia.</p>
+    <div class="cta-row">
+      <button class="btn-cta" onclick="enterApp()">Acessar o app &rarr;</button>
+      <button class="btn-cta2" onclick="goLogin()">Ja tenho conta</button>
+    </div>
+  </div>
+  <div class="pillars">
+    <div class="pillar"><div class="p-ico g">&#128202;</div><h3>Controle simplificado</h3><p>Registre entradas e saidas com categorizacao inteligente e visualizacao clara.</p></div>
+    <div class="pillar"><div class="p-ico a">&#129302;</div><h3>IA ativa</h3><p>Analisa comportamento, sugere melhorias e envia lembretes para manter consistencia.</p></div>
+    <div class="pillar"><div class="p-ico b">&#9889;</div><h3>Gamificacao Pointspay</h3><p>Ganhe pontos por cada movimentacao e troque por recompensas reais!</p></div>
+    <div class="pillar"><div class="p-ico p">&#129302;</div><h3>HB Junior</h3><p>Robo educador financeiro para criancas com missoes, mesada e conquistas.</p></div>
+  </div>
+  <div class="prof-sec">
+    <div class="sec-ttl">Para cada perfil, uma experiencia</div>
+    <div class="sec-sub">Do controle pessoal a educacao financeira infantil</div>
+    <div class="prof-cards">
+      <div class="pc" onclick="enterApp()"><span class="pc-ico">&#128100;</span><div class="pc-name">Pessoa fisica</div><div class="pc-desc">Controle pessoal</div></div>
+      <div class="pc" onclick="enterApp()"><span class="pc-ico">&#127978;</span><div class="pc-name">Microempreendedor</div><div class="pc-desc">MEI e negocios</div></div>
+      <div class="pc" onclick="enterApp()"><span class="pc-ico">&#127970;</span><div class="pc-name">Empresa</div><div class="pc-desc">PME com equipe</div></div>
+      <div class="pc jr" onclick="enterApp()"><span class="pc-ico">&#129302;</span><div class="pc-name">HB Junior</div><div class="pc-desc">Robo educador</div></div>
+    </div>
+  </div>
+  <div class="land-footer">
+    <div>&copy; 2025 HabitBank &mdash; Beta v3</div>
+    <div style="display:flex;gap:20px"><span style="cursor:pointer">Termos</span><span style="cursor:pointer">Privacidade</span><span style="cursor:pointer" onclick="enterApp()">App</span></div>
+  </div>
+</div>
+
+<!-- ========== APP ========== -->
+<div id="sa" class="screen">
+
+  <!-- ONBOARDING -->
+  <div class="ov" id="ov">
+    <div class="modal">
+      <div class="ms on" id="s1">
+        <div class="m-logo">HabitBank</div>
+        <div style="font-size:11px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.25rem">Versao Beta v3</div>
+        <div class="m-ttl">Bem-vindo a sua nova vida financeira</div>
+        <div class="m-sub">Vamos configurar sua conta em menos de 2 minutos.</div>
+        <button class="btn-m" onclick="nxStep(2)">Comecar configuracao</button>
+        <button class="btn-sk" onclick="closeOv()">Pular e explorar agora</button>
+        <div class="m-dots"><div class="mdot on"></div><div class="mdot"></div><div class="mdot"></div><div class="mdot"></div></div>
+      </div>
+      <div class="ms" id="s2">
+        <div class="m-ttl">Qual e o seu perfil?</div>
+        <div class="m-sub">Personalizamos com base no seu objetivo.</div>
+        <div class="popts">
+          <button class="popt" onclick="selP(this)"><span class="po-ico">&#128100;</span><div class="po-nm">Pessoa fisica</div><div class="po-ds">Controle pessoal</div></button>
+          <button class="popt" onclick="selP(this)"><span class="po-ico">&#127978;</span><div class="po-nm">MEI</div><div class="po-ds">Pequenos negocios</div></button>
+          <button class="popt" onclick="selP(this)"><span class="po-ico">&#127970;</span><div class="po-nm">Empresa</div><div class="po-ds">PME</div></button>
+          <button class="popt" onclick="selP(this)"><span class="po-ico">&#127891;</span><div class="po-nm">Estudante</div><div class="po-ds">Comecando</div></button>
+        </div>
+        <button class="btn-m" onclick="nxStep(3)">Continuar</button>
+        <div class="m-dots"><div class="mdot"></div><div class="mdot on"></div><div class="mdot"></div><div class="mdot"></div></div>
+      </div>
+      <div class="ms" id="s3">
+        <div class="m-ttl">Situacao financeira atual</div>
+        <div class="m-sub">Ajuda a IA a preparar seus primeiros insights.</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem">
+          <div class="ff"><label class="flbl">Renda mensal (R$)</label><input class="fi" type="number" placeholder="Ex: 4.000"/></div>
+          <div class="ff"><label class="flbl">Media de gastos (R$)</label><input class="fi" type="number" placeholder="Ex: 2.500"/></div>
+          <div class="ff"><label class="flbl">Objetivo principal</label><select class="fsel"><option>Controlar gastos</option><option>Montar reserva</option><option>Quitar dividas</option><option>Investir</option></select></div>
+        </div>
+        <button class="btn-m" onclick="nxStep(4)">Proximo</button>
+        <div class="m-dots"><div class="mdot"></div><div class="mdot"></div><div class="mdot on"></div><div class="mdot"></div></div>
+      </div>
+      <div class="ms" id="s4">
+        <div style="text-align:center;padding:.5rem 0">
+          <div style="font-size:52px;margin-bottom:1rem">&#127881;</div>
+          <div class="m-ttl" style="text-align:center">Tudo pronto, Lucas!</div>
+          <div class="m-sub" style="text-align:center">Voce ganhou <strong style="color:var(--green)">200 Pointspay</strong> de bonus!</div>
+          <button class="btn-m" onclick="closeOv()">Acessar o HabitBank</button>
+        </div>
+        <div class="m-dots" style="margin-top:1.25rem"><div class="mdot"></div><div class="mdot"></div><div class="mdot"></div><div class="mdot on"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="s-logo">Habit<span>Bank</span></div>
+      <div class="s-beta">Beta v3</div>
+      <div class="nav-grp">Principal</div>
+      <button class="ni on" onclick="goPage('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</button>
+      <button class="ni" onclick="goPage('registrar',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Registrar</button>
+      <button class="ni" onclick="goPage('extrato',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Extrato</button>
+      <button class="ni" onclick="goPage('metas',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Metas</button>
+      <div class="nav-grp">Familia</div>
+      <button class="ni jr-nav" onclick="goPage('junior',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M8 21v-1a4 4 0 018 0v1"/><path d="M16 11c2 .5 4 2 4 5M8 11c-2 .5-4 2-4 5"/></svg>HB Junior</button>
+      <div class="nav-grp">Recompensas</div>
+      <button class="ni" onclick="goPage('pointspay',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Pointspay</button>
+      <div class="nav-grp">Inteligencia</div>
+      <button class="ni" onclick="goPage('ia',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-5 0v-15A2.5 2.5 0 019.5 2zM14.5 8A2.5 2.5 0 0117 10.5v9a2.5 2.5 0 01-5 0v-9A2.5 2.5 0 0114.5 8z"/></svg>IA Financeira</button>
+      <div class="nav-grp">Conta</div>
+      <button class="ni" onclick="goPage('config',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Configuracoes</button>
+      <button class="ni" onclick="goPage('sobre',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Sobre nos</button>
+      <button class="ni" onclick="goPage('contato',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contato</button>
+      <div class="sb-foot">
+        <div class="uchip" onclick="goPage('config',null)">
+          <div class="uava">LM</div>
+          <div><div class="un">Lucas Martins</div><div class="ul">&#9889; Nivel Prata</div></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <!-- MOBILE TOPBAR -->
+      <div class="mob-top">
+        <div class="mob-logo">Habit<span>Bank</span></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="pts-chip" style="font-size:12px;padding:4px 10px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span id="pmob">1.240 pts</span></div>
+          <button class="nb" style="width:32px;height:32px;font-size:15px">&#128276;<div class="nb-dot"></div></button>
+        </div>
+      </div>
+      <!-- DESKTOP TOPBAR -->
+      <div class="topbar">
+        <div class="tb-ttl" id="tbtl">Dashboard</div>
+        <div class="tb-r">
+          <div class="pts-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span id="ptsd">1.240 pts</span></div>
+          <button class="nb">&#128276;<div class="nb-dot"></div></button>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="pd" class="page on">
+        <div class="ph"><h1>Ola, Lucas &#128075;</h1><p>Segunda-feira, 23 de marco &middot; Sequencia de <strong>7 dias &#128293;</strong></p></div>
+        <div class="bhero">
+          <div class="b-lbl">Saldo atual</div>
+          <div class="b-amt" id="hsaldo">R$ 3.420,00</div>
+          <div class="b-row">
+            <div><div class="b-sl">Receitas marco</div><div class="b-sv in" id="hent">+ R$ 4.600</div></div>
+            <div><div class="b-sl">Despesas marco</div><div class="b-sv out" id="hsai">- R$ 2.180</div></div>
+            <div><div class="b-sl">Pointspay hoje</div><div class="b-sv" style="color:#fcd34d">+80 pts</div></div>
+          </div>
+        </div>
+        <div class="g4">
+          <div class="met"><div class="m-lbl">Gastos do mes</div><div class="m-val r" id="mgastos">R$ 2.180</div><div class="m-bdg dn">&#9650; 8% vs fev</div></div>
+          <div class="met"><div class="m-lbl">Meta poupanca</div><div class="m-val g">72%</div><div class="m-bdg up">&#9650; +5%</div></div>
+          <div class="met"><div class="m-lbl">Pointspay</div><div class="m-val a" id="mpts">1.240</div><div class="m-sub">+80 hoje</div></div>
+          <div class="met"><div class="m-lbl">Contas a vencer</div><div class="m-val b">3</div><div class="m-sub">Proxima: 3 dias</div></div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-h"><div class="c-ttl">Receitas x Despesas - marco</div></div><div class="bchart" id="bch"></div><div style="display:flex;gap:14px;margin-top:10px"><div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu)"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div>Receitas</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu)"><div style="width:10px;height:10px;border-radius:2px;background:var(--red);opacity:.75"></div>Despesas</div></div></div>
+          <div class="card"><div class="card-h"><div class="c-ttl">Distribuicao de gastos</div></div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>&#127968; Moradia</span><span style="color:var(--mu)">R$ 950 &middot; 44%</span></div><div class="pb"><div class="pf" style="width:44%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>&#127828; Alimentacao</span><span style="color:var(--mu)">R$ 680 &middot; 31%</span></div><div class="pb"><div class="pf a" style="width:31%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>&#127918; Lazer</span><span style="color:var(--mu)">R$ 330 &middot; 15%</span></div><div class="pb"><div class="pf r" style="width:15%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>&#128663; Transporte</span><span style="color:var(--mu)">R$ 220 &middot; 10%</span></div><div class="pb"><div class="pf b" style="width:10%"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-h"><div class="c-ttl">Consistencia - marco</div></div><div class="sgrid" id="strk"></div><div style="display:flex;align-items:center;gap:16px;margin-top:10px"><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green)">7</div><div><div style="font-size:14px;font-weight:600">dias consecutivos &#128293;</div><div style="font-size:12px;color:var(--mu)">+100 pts ao completar 14 dias!</div></div></div></div>
+          <div class="card"><div class="card-h"><div class="c-ttl">Ultimas movimentacoes</div><button class="c-act" onclick="goPage('extrato',null)">Ver todas</button></div><div id="dtxl"></div></div>
+        </div>
+      </div>
+
+      <!-- ===== REGISTRAR ===== -->
+      <div id="preg" class="page">
+        <div class="ph"><h1>Nova movimentacao</h1><p>Registre e ganhe <strong style="color:var(--green)">+20 Pointspay</strong> automaticamente</p></div>
+        <div style="max-width:560px">
+          <div class="card">
+            <div class="ttog">
+              <button class="tb on e" id="bte" onclick="setTipo('e')">&#128176; Entrada</button>
+              <button class="tb s" id="bts" onclick="setTipo('s')">&#128184; Saida</button>
+            </div>
+            <div class="fg">
+              <div class="ff full"><label class="flbl">Descricao</label><input class="fi" id="fdesc" type="text" placeholder="Ex: Salario, Mercado..."/></div>
+              <div class="ff"><label class="flbl">Valor (R$)</label><input class="fi" id="fval" type="number" placeholder="0,00" min="0" step="0.01"/></div>
+              <div class="ff"><label class="flbl">Data</label><input class="fi" id="fdata" type="date"/></div>
+              <div class="ff"><label class="flbl">Categoria</label><select class="fsel" id="fcat"><option>&#127828; Alimentacao</option><option>&#127968; Moradia</option><option>&#128663; Transporte</option><option>&#128138; Saude</option><option>&#127918; Lazer</option><option>&#128084; Vestuario</option><option>&#128218; Educacao</option><option>&#128188; Salario</option><option>&#128187; Freelance</option><option>&#128230; Outros</option></select></div>
+              <div class="ff"><label class="flbl">Conta / Cartao</label><select class="fsel" id="fconta"><option>Conta corrente</option><option>Poupanca</option><option>Cartao de credito</option><option>Dinheiro</option><option>PIX</option></select></div>
+              <div class="ff full"><label class="flbl">Observacao</label><input class="fi" type="text" placeholder="Detalhes adicionais..."/></div>
+            </div>
+            <button class="btn-pr" onclick="regTx()">Registrar movimentacao</button>
+          </div>
+          <div class="ai-h"><div class="ai-orb">&#10024;</div><div><div class="ai-tag">Dica da IA</div><div class="ai-tx">Envie foto de comprovantes e a IA preenchera os dados automaticamente. Disponivel na versao completa!</div></div></div>
+        </div>
+      </div>
+
+      <!-- ===== EXTRATO ===== -->
+      <div id="pext" class="page">
+        <div class="ph"><h1>Extrato completo</h1><p>Historico de todas as suas movimentacoes</p></div>
+        <div class="card">
+          <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap">
+            <select class="fsel" style="flex:1;min-width:120px" id="ftipo" onchange="renExt()"><option value="">Todos os tipos</option><option value="e">Entradas</option><option value="s">Saidas</option></select>
+            <select class="fsel" style="flex:1;min-width:140px" id="fcat2" onchange="renExt()"><option value="">Todas as categorias</option><option>&#127828; Alimentacao</option><option>&#127968; Moradia</option><option>&#128663; Transporte</option><option>&#128138; Saude</option><option>&#127918; Lazer</option><option>&#128188; Salario</option><option>&#128187; Freelance</option></select>
+          </div>
+          <div id="extl"></div>
+        </div>
+      </div>
+
+      <!-- ===== METAS ===== -->
+      <div id="pmetas" class="page">
+        <div class="ph"><h1>Minhas metas</h1><p>Acompanhe o progresso dos seus objetivos</p></div>
+        <div class="g2">
+          <div class="card"><div class="card-h"><div class="c-ttl">&#127958; Reserva de emergencia</div></div><div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--green)">R$ 7.200</div><div style="font-size:13px;color:var(--mu);margin:4px 0 12px">de R$ 12.000 &middot; 60%</div><div class="pb"><div class="pf" style="width:60%"></div></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Faltam R$ 4.800 &middot; Previsao: ago 2025</div></div>
+          <div class="card"><div class="card-h"><div class="c-ttl">&#128663; Carro novo</div></div><div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--blue)">R$ 12.000</div><div style="font-size:13px;color:var(--mu);margin:4px 0 12px">de R$ 40.000 &middot; 30%</div><div class="pb"><div class="pf b" style="width:30%"></div></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Previsao: 2027</div></div>
+          <div class="card"><div class="card-h"><div class="c-ttl">&#9992; Viagem - Europa</div></div><div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--amber)">R$ 3.500</div><div style="font-size:13px;color:var(--mu);margin:4px 0 12px">de R$ 8.000 &middot; 44%</div><div class="pb"><div class="pf a" style="width:44%"></div></div><div style="font-size:12px;color:var(--mu);margin-top:6px">Previsao: dez 2025</div></div>
+          <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;border-style:dashed;cursor:pointer;min-height:120px" onclick="toast('Criacao de metas em breve!')"><div style="font-size:36px;margin-bottom:8px">+</div><div style="font-size:14px;font-weight:600;color:var(--mu)">Nova meta</div></div>
+        </div>
+      </div>
+
+      <!-- ===== HB JUNIOR ===== -->
+      <div id="pjunior" class="page">
+        <div class="ph"><h1>HB Junior &#129302;</h1><p>Robo educador financeiro para criancas e adolescentes</p></div>
+        <div class="jhero">
+          <div style="position:relative;z-index:1">
+            <div class="j-badge">&#129302; HB Junior</div>
+            <div style="font-family:var(--fd);font-size:clamp(18px,3vw,24px);font-weight:800;color:#fff;margin-bottom:6px">Aprender sobre dinheiro e divertido!</div>
+            <div style="font-size:14px;color:rgba(255,255,255,.85);max-width:480px;line-height:1.6">O HB Junior e um robo inteligente que conversa com seus filhos, propoe missoes financeiras, controla a mesada e ensina o valor do dinheiro com gamificacao.</div>
+          </div>
+          <div style="text-align:center;position:relative;z-index:1">
+            <span class="robot">&#129302;</span>
+            <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:600;margin-top:4px">HB Junior</div>
+          </div>
+        </div>
+        <!-- Chat -->
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="background:var(--jrlight);padding:.875rem 1.25rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px">
+            <span style="font-size:22px">&#129302;</span>
+            <div><div style="font-size:14px;font-weight:700;color:var(--jrdark)">HB Junior</div><div style="font-size:12px;color:var(--jr)">&#9679; Online agora</div></div>
+          </div>
+          <div class="jmsgs" id="jmsgs">
+            <div class="jmsg bot"><div class="jmsg-s" style="color:var(--jrdark)">HB Junior</div>Ola, Pedro! &#128075; Hoje e dia de revisar suas financas. Voce ja guardou R$ 24 da mesada este mes &mdash; otimo progresso! &#128055;</div>
+            <div class="jmsg bot"><div class="jmsg-s" style="color:var(--jrdark)">HB Junior</div>Sua meta do Nintendo Switch esta a 47%! Se guardar R$ 50 por mes, voce consegue em 3 meses. Vamos? &#127918;</div>
+            <div class="jmsg usr"><div class="jmsg-s" style="color:rgba(255,255,255,.8)">Pedro</div>Sim! Quero muito &#128516;</div>
+            <div class="jmsg bot"><div class="jmsg-s" style="color:var(--jrdark)">HB Junior</div>Incrivel! &#127775; Nova missao: complete a lista de compras com a mamae hoje e ganhe +30 Pointspay!</div>
+          </div>
+          <div class="jchat-in">
+            <input type="text" id="jci" placeholder="Pergunte algo ao HB Junior..." onkeydown="if(event.key==='Enter')sendJr()"/>
+            <button class="jchat-send" onclick="sendJr()">Enviar</button>
+          </div>
+        </div>
+        <!-- Perfis -->
+        <div class="card">
+          <div class="card-h"><div class="c-ttl">Perfis das criancas</div><button class="c-act" onclick="toast('Adicionar crianca em breve!')">+ Adicionar</button></div>
+          <div class="kid-row">
+            <div class="kc sel" onclick="selKid(this)"><div class="k-ava" style="background:var(--jrlight)">&#129306;</div><div class="k-nm">Pedro</div><div class="k-ag">10 anos &middot; 4 serie</div><div class="k-pt">&#9889; 480 Pointspay</div><div style="margin-top:8px"><div class="pb"><div class="pf j" style="width:64%"></div></div><div style="font-size:11px;color:var(--mu);margin-top:3px">Explorador &middot; 64%</div></div></div>
+            <div class="kc" onclick="selKid(this)"><div class="k-ava" style="background:#fce7f3">&#128105;</div><div class="k-nm">Ana</div><div class="k-ag">7 anos &middot; 2 serie</div><div class="k-pt">&#9889; 210 Pointspay</div><div style="margin-top:8px"><div class="pb"><div class="pf j" style="width:42%"></div></div><div style="font-size:11px;color:var(--mu);margin-top:3px">Iniciante &middot; 42%</div></div></div>
+            <div class="kc" style="border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px" onclick="toast('Em breve!')"><div style="font-size:28px;margin-bottom:6px">+</div><div style="font-size:13px;font-weight:600;color:var(--mu)">Adicionar</div></div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-h"><div class="c-ttl">Missoes do Pedro &#128506;</div></div>
+            <div class="jtk"><div class="jt-ico">&#128055;</div><div class="jt-inf"><div class="jt-nm">Guardar mesada</div><div class="jt-ds">Guarde 30% da mesada este mes</div><div class="pb" style="margin-top:6px"><div class="pf j" style="width:80%"></div></div></div><div class="jt-pt">+50 pts</div></div>
+            <div class="jtk"><div class="jt-ico">&#128717;</div><div class="jt-inf"><div class="jt-nm">Lista de compras</div><div class="jt-ds">Ajude a fazer a lista semanal</div><div class="pb" style="margin-top:6px"><div class="pf j" style="width:100%"></div></div><div style="font-size:11px;color:var(--jr);font-weight:600;margin-top:2px">Concluida!</div></div><div class="jt-pt">+30 pts</div></div>
+            <div class="jtk"><div class="jt-ico">&#128218;</div><div class="jt-inf"><div class="jt-nm">Quiz financeiro</div><div class="jt-ds">Complete "O que e dinheiro?"</div><div class="pb" style="margin-top:6px"><div class="pf j" style="width:0%"></div></div></div><div class="jt-pt">+40 pts</div></div>
+          </div>
+          <div>
+            <div class="allowc"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="font-size:12px;font-weight:600;color:var(--jrdark);text-transform:uppercase;letter-spacing:.06em">Mesada - Pedro</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--jrdark);margin-top:2px">R$ 80,00</div></div><button class="btn-s" style="border-color:var(--jr);color:var(--jr)">Ajustar</button></div><div style="display:flex;gap:16px"><div><div style="font-size:11px;color:var(--jrdark);opacity:.8">Gasto</div><div style="font-size:16px;font-weight:700;color:var(--red)">R$ 35</div></div><div><div style="font-size:11px;color:var(--jrdark);opacity:.8">Guardado</div><div style="font-size:16px;font-weight:700;color:var(--jr)">R$ 24</div></div><div><div style="font-size:11px;color:var(--jrdark);opacity:.8">Disponivel</div><div style="font-size:16px;font-weight:700;color:var(--tx)">R$ 21</div></div></div></div>
+            <div class="card" style="margin-bottom:0"><div class="card-h"><div class="c-ttl">&#127919; Objetivo do Pedro</div></div><div style="display:flex;align-items:center;gap:14px;margin-bottom:10px"><div style="font-size:32px">&#127918;</div><div><div style="font-size:14px;font-weight:600">Nintendo Switch</div><div style="font-size:12px;color:var(--mu)">Meta: R$ 300 &middot; Guardado: R$ 140</div></div></div><div class="pb" style="height:12px"><div class="pf j" style="width:47%"></div></div><div style="font-size:12px;color:var(--mu);margin-top:6px">47% &middot; Faltam R$ 160 &middot; ~3 meses</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== POINTSPAY ===== -->
+      <div id="ppts" class="page">
+        <div class="ph"><h1>Pointspay</h1><p>Seu programa de recompensas por disciplina financeira</p></div>
+        <div class="ph2">
+          <div><div class="phl">Seu saldo</div><div class="phv" id="phv">1.240</div><div class="phs">+80 hoje &middot; +200 esta semana</div></div>
+          <div class="pl-bdg"><span class="pl-ico">&#9889;</span><div class="pl-nm">Prata</div></div>
+        </div>
+        <div class="card">
+          <div class="c-ttl" style="margin-bottom:1rem">Evolucao de nivel</div>
+          <div class="lgr">
+            <div class="lc"><div class="l-ico">&#127807;</div><div class="l-nm">Bronze</div><div class="l-pts">0-500 pts</div></div>
+            <div class="lc cur"><div class="l-ico">&#9889;</div><div class="l-nm">Prata</div><div class="l-pts">500-2k pts</div></div>
+            <div class="lc"><div class="l-ico">&#128142;</div><div class="l-nm">Ouro</div><div class="l-pts">2k-5k pts</div></div>
+            <div class="lc"><div class="l-ico">&#127942;</div><div class="l-nm">Elite</div><div class="l-pts">5k+ pts</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-bottom:5px"><span>Prata &rarr; Ouro</span><span id="pplbl">1.240 / 2.000 pts</span></div>
+          <div class="pb" style="height:10px"><div class="pf" id="ppbar" style="width:62%"></div></div>
+          <div style="font-size:12px;color:var(--mu);margin-top:6px">Faltam <strong id="ppflt">760</strong> pts para o Ouro &#128142;</div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="c-ttl">Desafios ativos</div></div>
+          <div class="chit"><div class="ch-ico">&#128197;</div><div class="ch-inf"><div class="ch-nm">7 dias de registros</div><div class="ch-ds">Registre ao menos 1 movimentacao por dia</div><div class="pb" style="margin-top:8px"><div class="pf" style="width:100%"></div></div><div style="font-size:11px;color:var(--green);margin-top:3px;font-weight:600">Completo!</div></div><div class="ch-pts">+100 pts</div></div>
+          <div class="chit"><div class="ch-ico">&#127974;</div><div class="ch-inf"><div class="ch-nm">Meta de poupanca</div><div class="ch-ds">Atinja R$ 1.000 guardados este mes</div><div class="pb" style="margin-top:8px"><div class="pf" style="width:72%"></div></div></div><div class="ch-pts">+200 pts</div></div>
+          <div class="chit"><div class="ch-ico">&#9986;</div><div class="ch-inf"><div class="ch-nm">Corte de lazer</div><div class="ch-ds">Reduza lazer em 20% vs mes anterior</div><div class="pb" style="margin-top:8px"><div class="pf a" style="width:40%"></div></div></div><div class="ch-pts">+150 pts</div></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="c-ttl">Resgatar recompensas</div></div>
+          <div class="rwg">
+            <div class="rwc"><span class="rw-em">&#128184;</span><div class="rw-nm">Cashback 5%</div><div class="rw-pt">Compras no app parceiro</div><div class="rw-row"><div class="rw-p">500 pts</div><button class="btn-rs" onclick="resgatar('Cashback 5%',500)">Resgatar</button></div></div>
+            <div class="rwc"><span class="rw-em">&#11088;</span><div class="rw-nm">Premium - 1 mes</div><div class="rw-pt">Funcionalidades avancadas</div><div class="rw-row"><div class="rw-p">1.000 pts</div><button class="btn-rs" onclick="resgatar('Premium',1000)">Resgatar</button></div></div>
+            <div class="rwc"><span class="rw-em">&#127978;</span><div class="rw-nm">Desconto parceiro</div><div class="rw-pt">Lojas selecionadas</div><div class="rw-row"><div class="rw-p">300 pts</div><button class="btn-rs" onclick="resgatar('Desconto',300)">Resgatar</button></div></div>
+            <div class="rwc"><span class="rw-em">&#127873;</span><div class="rw-nm">Brinde digital</div><div class="rw-pt">Surprise exclusivo</div><div class="rw-row"><div class="rw-p">200 pts</div><button class="btn-rs" onclick="resgatar('Brinde',200)">Resgatar</button></div></div>
+          </div>
+        </div>
+        <!-- EXTRATO POINTSPAY -->
+        <div class="card">
+          <div class="card-h"><div class="c-ttl">Extrato de Pointspay</div><div style="font-size:12px;color:var(--mu)">Ultimos 30 dias</div></div>
+          <div id="pext2"></div>
+        </div>
+      </div>
+
+      <!-- ===== IA FINANCEIRA ===== -->
+      <div id="pia" class="page">
+        <div class="ph"><h1>IA Financeira</h1><p>Analise inteligente baseada no seu comportamento</p></div>
+        <div class="ai-h"><div class="ai-orb">&#129302;</div><div><div class="ai-tag">Analise da semana &middot; 23/03/2025</div><div class="ai-tx">Parabens! Voce manteve sua sequencia de 7 dias. Seus gastos com alimentacao cresceram 18% vs mes passado - considere revisar refeicoes fora de casa para ampliar sua margem de poupanca.</div></div></div>
+        <div class="g2">
+          <div class="card"><div class="card-h"><div class="c-ttl">Insights personalizados</div></div>
+            <div class="ii"><div class="id g"></div><div class="it">Sua taxa de poupanca de <strong>72%</strong> esta acima da media de usuarios com perfil similar.</div></div>
+            <div class="ii"><div class="id a"></div><div class="it">Assinaturas somam <strong>R$ 180/mes</strong>. Economia potencial de ate R$ 80.</div></div>
+            <div class="ii"><div class="id r"></div><div class="it">Conta de energia vence em <strong>3 dias</strong>. Nao esqueca!</div></div>
+            <div class="ii"><div class="id g"></div><div class="it">Se manter o ritmo, atingira a reserva em <strong>agosto</strong>.</div></div>
+          </div>
+          <div class="card"><div class="card-h"><div class="c-ttl">Previsao do mes</div></div>
+            <div class="g3" style="gap:10px;margin-bottom:1rem">
+              <div style="text-align:center"><div style="font-size:11px;color:var(--mu);text-transform:uppercase;margin-bottom:5px">Receita</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--green)">R$4.600</div></div>
+              <div style="text-align:center"><div style="font-size:11px;color:var(--mu);text-transform:uppercase;margin-bottom:5px">Gasto</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--red)">R$2.950</div></div>
+              <div style="text-align:center"><div style="font-size:11px;color:var(--mu);text-transform:uppercase;margin-bottom:5px">Poupanca</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--blue)">R$1.650</div></div>
+            </div>
+            <div style="background:var(--gpale);border:1px solid rgba(29,158,117,.2);border-radius:var(--ra);padding:10px 14px;font-size:13px;color:var(--gdark)">&#128161; Reduzindo R$ 150 em alimentacao, voce economiza R$ 1.800 ate o fim do mes.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CONFIGURACOES ===== -->
+      <div id="pconfig" class="page">
+        <div class="ph"><h1>Configuracoes</h1><p>Gerencie sua conta, familia e preferencias</p></div>
+        <div class="stabs">
+          <button class="stab on" onclick="goSP('perf',this)">&#128100; Perfil</button>
+          <button class="stab" onclick="goSP('fam',this)">&#128106; Familia</button>
+          <button class="stab" onclick="goSP('contas',this)">&#127974; Contas</button>
+          <button class="stab" onclick="goSP('mon',this)">&#128202; Monitoramento</button>
+          <button class="stab" onclick="goSP('obj',this)">&#127919; Objetivos</button>
+          <button class="stab" onclick="goSP('notif',this)">&#128276; Notificacoes</button>
+        </div>
+        <!-- PERFIL -->
+        <div class="sp on" id="sp-perf">
+          <div class="card"><div style="display:flex;align-items:center;gap:18px;margin-bottom:1.5rem;flex-wrap:wrap"><div style="width:72px;height:72px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;flex-shrink:0">LM</div><div><div style="font-family:var(--fd);font-size:20px;font-weight:800">Lucas Martins</div><div style="font-size:13px;color:var(--mu)">lucas@habitbank.app</div><div style="margin-top:6px"><span class="sbdg ok">&#9889; Nivel Prata</span></div></div><button class="btn-s" style="margin-left:auto">Editar foto</button></div>
+          <div class="ss-ttl">Dados pessoais</div>
+          <div class="fg" style="margin-bottom:1.25rem"><div class="ff"><label class="flbl">Nome completo</label><input class="fi" value="Lucas Martins"/></div><div class="ff"><label class="flbl">CPF</label><input class="fi" type="password" value="00000000000"/></div><div class="ff"><label class="flbl">Data de nascimento</label><input class="fi" type="date" value="1992-05-14"/></div><div class="ff"><label class="flbl">Telefone</label><input class="fi" value="(41) 99999-0000"/></div><div class="ff full"><label class="flbl">E-mail</label><input class="fi" value="lucas@habitbank.app"/></div></div>
+          <button class="btn-pr" style="max-width:200px" onclick="toast('Dados salvos! ✅',true)">Salvar alteracoes</button></div>
+          <div class="card"><div class="ss-ttl">Seguranca</div>
+            <div class="srow"><div><div class="s-lbl">Alterar senha</div><div class="s-ds">Ultima alteracao ha 3 meses</div></div><button class="btn-s" onclick="toast('Link enviado ao e-mail')">Alterar</button></div>
+            <div class="srow"><div><div class="s-lbl">Autenticacao em 2 fatores</div><div class="s-ds">Camada extra de seguranca</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Biometria</div><div class="s-ds">Face ID ou digital</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+        <!-- FAMILIA -->
+        <div class="sp" id="sp-fam">
+          <div class="card"><div class="card-h"><div class="c-ttl">Membros da familia</div><button class="c-act" onclick="toast('Convidar em breve!')">+ Convidar</button></div>
+            <div class="ss-ttl" style="margin-bottom:12px">Parentesco e controle de acesso</div>
+            <div class="ri"><div class="r-ava" style="background:var(--glight)">&#128100;</div><div><div class="r-nm">Lucas Martins</div><div class="r-rl">Titular &middot; Administrador</div></div><div style="margin-left:auto"><span class="sbdg ok">Admin</span></div></div>
+            <div class="ri"><div class="r-ava" style="background:#fce7f3">&#128105;</div><div><div class="r-nm">Camila Martins</div><div class="r-rl">Conjuge &middot; Acesso total</div></div><div style="margin-left:auto;display:flex;gap:6px;align-items:center"><span class="sbdg ok">Ativo</span><button class="btn-s" onclick="toast('Editando acesso...')">Editar</button></div></div>
+            <div class="ri"><div class="r-ava" style="background:var(--jrlight)">&#129306;</div><div><div class="r-nm">Pedro Martins</div><div class="r-rl">Filho &middot; HB Junior &middot; 10 anos</div></div><div style="margin-left:auto;display:flex;gap:6px;align-items:center"><span class="sbdg jr">Junior</span><button class="btn-s" onclick="goPage('junior',null)">Ver perfil</button></div></div>
+            <div class="ri"><div class="r-ava" style="background:#fce7f3">&#128105;</div><div><div class="r-nm">Ana Martins</div><div class="r-rl">Filha &middot; HB Junior &middot; 7 anos</div></div><div style="margin-left:auto;display:flex;gap:6px;align-items:center"><span class="sbdg jr">Junior</span><button class="btn-s" onclick="goPage('junior',null)">Ver perfil</button></div></div>
+          </div>
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Controle de permissoes</div>
+            <div class="srow"><div><div class="s-lbl">Camila - ver saldo completo</div><div class="s-ds">Inclui todas as contas</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Camila - registrar movimentacoes</div><div class="s-ds">Despesas e receitas compartilhadas</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Aprovacao para saques acima de R$ 500</div><div class="s-ds">Requer confirmacao do titular</div></div><button class="tog" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Pedro - ver apenas mesada</div><div class="s-ds">Acesso restrito ao HB Junior</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Notificar gastos dos filhos</div><div class="s-ds">Alerta em tempo real no app</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+        <!-- CONTAS -->
+        <div class="sp" id="sp-contas">
+          <div class="card"><div class="card-h"><div class="c-ttl">Contas vinculadas</div><button class="c-act" onclick="toast('Conectar conta em breve!')">+ Conectar</button></div>
+            <div class="bki"><div class="bk-ico" style="background:var(--blight)">&#127974;</div><div><div class="bk-nm">Nubank - Conta corrente</div><div class="bk-tp">Debito &middot; PIX ativo</div></div><div class="bk-bal">R$ 2.840,00</div><span class="sbdg ok">Sincronizado</span></div>
+            <div class="bki"><div class="bk-ico" style="background:var(--alight)">&#127939;</div><div><div class="bk-nm">Itau - Poupanca</div><div class="bk-tp">Poupanca &middot; Rendimento ativo</div></div><div class="bk-bal">R$ 7.200,00</div><span class="sbdg ok">Sincronizado</span></div>
+            <div class="bki"><div class="bk-ico" style="background:var(--rlight)">&#128997;</div><div><div class="bk-nm">Bradesco - Cartao Visa</div><div class="bk-tp">Credito &middot; Fatura: 12/abr</div></div><div class="bk-bal" style="color:var(--red)">-R$ 1.240,00</div><span class="sbdg wn">Fatura aberta</span></div>
+            <div class="bki"><div class="bk-ico" style="background:var(--glight)">&#128154;</div><div><div class="bk-nm">Inter - Investimentos</div><div class="bk-tp">CDB &middot; 0.9% a.m.</div></div><div class="bk-bal">R$ 5.600,00</div><span class="sbdg ok">Ativo</span></div>
+          </div>
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Sincronizacao</div>
+            <div class="srow"><div><div class="s-lbl">Sincronizacao automatica</div><div class="s-ds">Atualiza saldos a cada 6 horas</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Importar extratos automaticamente</div><div class="s-ds">Categorizacao via IA</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Alerta de limite do cartao</div><div class="s-ds">Notifica ao atingir 80% do limite</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+        <!-- MONITORAMENTO -->
+        <div class="sp" id="sp-mon">
+          <div class="mg3">
+            <div class="mc"><div class="m-l">Saldo total hoje</div><div class="m-v" style="color:var(--green)">R$ 14.400</div><div style="font-size:12px;color:var(--mu);margin-top:4px">4 contas</div></div>
+            <div class="mc"><div class="m-l">Gastos de hoje</div><div class="m-v" style="color:var(--red)">R$ 147,50</div><div style="font-size:12px;color:var(--mu);margin-top:4px">3 transacoes</div></div>
+            <div class="mc"><div class="m-l">Fatura aberta</div><div class="m-v" style="color:var(--amber)">R$ 1.240</div><div style="font-size:12px;color:var(--mu);margin-top:4px">Vence em 20 dias</div></div>
+          </div>
+          <div class="card"><div class="card-h"><div class="c-ttl">Movimentacoes de hoje</div></div>
+            <div class="txi"><div class="tx-l"><div class="tx-ico a">&#9749;</div><div><div class="tx-nm">Cafe da manha</div><div class="tx-ct">Alimentacao &middot; Cartao</div></div></div><div class="tx-r"><div class="tx-v m">-R$ 22,50</div><div class="tx-dt">08:14</div></div></div>
+            <div class="txi"><div class="tx-l"><div class="tx-ico b">&#128663;</div><div><div class="tx-nm">Uber - trabalho</div><div class="tx-ct">Transporte &middot; Credito</div></div></div><div class="tx-r"><div class="tx-v m">-R$ 35,00</div><div class="tx-dt">09:02</div></div></div>
+            <div class="txi"><div class="tx-l"><div class="tx-ico r">&#127828;</div><div><div class="tx-nm">Almoco restaurante</div><div class="tx-ct">Alimentacao &middot; Debito</div></div></div><div class="tx-r"><div class="tx-v m">-R$ 90,00</div><div class="tx-dt">12:45</div></div></div>
+          </div>
+          <div class="card"><div class="card-h"><div class="c-ttl">Status das contas bancarias</div></div>
+            <div class="txi"><div class="tx-l"><div style="font-size:18px;width:36px;text-align:center">&#127974;</div><div><div class="tx-nm">Nubank</div><div class="tx-ct">Ha 2h</div></div></div><div class="tx-r"><div class="tx-v p">R$ 2.840</div><span class="sbdg ok">OK</span></div></div>
+            <div class="txi"><div class="tx-l"><div style="font-size:18px;width:36px;text-align:center">&#127939;</div><div><div class="tx-nm">Itau Poupanca</div><div class="tx-ct">Ha 6h</div></div></div><div class="tx-r"><div class="tx-v p">R$ 7.200</div><span class="sbdg ok">OK</span></div></div>
+            <div class="txi"><div class="tx-l"><div style="font-size:18px;width:36px;text-align:center">&#128997;</div><div><div class="tx-nm">Bradesco Visa</div><div class="tx-ct">Fatura: R$ 1.240</div></div></div><div class="tx-r"><div class="tx-v" style="color:var(--amber)">Fatura aberta</div><span class="sbdg wn">Atencao</span></div></div>
+            <div class="txi"><div class="tx-l"><div style="font-size:18px;width:36px;text-align:center">&#128154;</div><div><div class="tx-nm">Inter Invest.</div><div class="tx-ct">Rendimento: +R$ 48</div></div></div><div class="tx-r"><div class="tx-v p">R$ 5.600</div><span class="sbdg ok">Rendendo</span></div></div>
+          </div>
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Configurar monitoramento</div>
+            <div class="srow"><div><div class="s-lbl">Relatorio diario as 20h</div><div class="s-ds">Resumo automatico no app</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Alerta de gasto acima de R$ 200</div><div class="s-ds">Notificacao imediata</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Alerta de saldo baixo (R$ 500)</div><div class="s-ds">Conta corrente</div></div><button class="tog" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Monitorar cartao dos filhos</div><div class="s-ds">HB Junior - tempo real</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+        <!-- OBJETIVOS -->
+        <div class="sp" id="sp-obj">
+          <div class="card"><div class="card-h"><div class="c-ttl">Objetivos financeiros</div><button class="c-act" onclick="toast('Nova meta em breve!')">+ Nova meta</button></div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#127958;</span><div><div style="font-size:14px;font-weight:600">Reserva de emergencia</div><div style="font-size:12px;color:var(--mu)">Meta: R$ 12.000</div></div></div><span class="sbdg ok">Em progresso</span></div><div class="pb" style="height:10px"><div class="pf" style="width:60%"></div></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-top:5px"><span>R$ 7.200 guardados</span><span>ago 2025</span></div></div>
+              <div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#128663;</span><div><div style="font-size:14px;font-weight:600">Carro novo</div><div style="font-size:12px;color:var(--mu)">Meta: R$ 40.000</div></div></div><span class="sbdg ok">Em progresso</span></div><div class="pb" style="height:10px"><div class="pf b" style="width:30%"></div></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-top:5px"><span>R$ 12.000 guardados</span><span>2027</span></div></div>
+              <div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9992;</span><div><div style="font-size:14px;font-weight:600">Viagem Europa</div><div style="font-size:12px;color:var(--mu)">Meta: R$ 8.000 &middot; dez 2025</div></div></div><span class="sbdg wn">Atraso leve</span></div><div class="pb" style="height:10px"><div class="pf a" style="width:44%"></div></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-top:5px"><span>R$ 3.500 guardados</span><span>Precisa R$ 600/mes</span></div></div>
+            </div>
+          </div>
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Configuracoes de metas</div>
+            <div class="srow"><div><div class="s-lbl">Aporte automatico mensal</div><div class="s-ds">Transferir para metas no dia do salario</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Alertas de progresso</div><div class="s-ds">Notificar a 25%, 50%, 75% e 100%</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Sugestoes da IA para metas</div><div class="s-ds">Insights para acelerar objetivos</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+        <!-- NOTIFICACOES -->
+        <div class="sp" id="sp-notif">
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Canais</div>
+            <div class="srow"><div><div class="s-lbl">Notificacoes no app</div><div class="s-ds">Push em tempo real</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">E-mail</div><div class="s-ds">Relatorios e alertas importantes</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">WhatsApp</div><div class="s-ds">Lembretes e alertas urgentes</div></div><button class="tog" onclick="togBtn(this)"></button></div>
+          </div>
+          <div class="card"><div class="ss-ttl" style="margin-bottom:12px">Tipos de alerta</div>
+            <div class="srow"><div><div class="s-lbl">Lembrete de registro diario</div><div class="s-ds">Horario: 21h</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Vencimento de contas</div><div class="s-ds">3 dias antes do vencimento</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Metas atingidas</div><div class="s-ds">Celebre cada conquista</div></div><button class="tog on" onclick="togBtn(this)"></button></div>
+            <div class="srow"><div><div class="s-lbl">Novos Pointspay</div><div class="s-ds">Notificar quando ganhar pontos</div></div><button class="tog" onclick="togBtn(this)"></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SOBRE NOS ===== -->
+      <div id="psobre" class="page">
+        <div class="ph"><h1>Sobre nos</h1><p>Conheca o HabitBank e nossa missao</p></div>
+        <div class="about-hero">
+          <div style="position:relative;z-index:1">
+            <div style="font-family:var(--fd);font-size:36px;font-weight:800;color:#fff;margin-bottom:.5rem">Habit<span style="opacity:.5">Bank</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem">Versao Beta &middot; 2025</div>
+            <div style="font-size:clamp(15px,2.5vw,19px);color:rgba(255,255,255,.92);max-width:560px;line-height:1.65">Transformando a relacao das pessoas com o dinheiro atraves de tecnologia, inteligencia artificial e gamificacao.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="c-ttl" style="margin-bottom:1rem;font-size:17px">Nossa missao</div>
+          <p style="font-size:15px;color:var(--mu);line-height:1.75;margin-bottom:1rem">O HabitBank nasceu da percepcao de que a maioria das pessoas nao tem dificuldades financeiras por falta de renda, mas por falta de acompanhamento, disciplina e clareza sobre seus proprios gastos.</p>
+          <p style="font-size:15px;color:var(--mu);line-height:1.75">Nossa missao e democratizar o acesso ao controle financeiro inteligente, tornando-o acessivel, motivador e recompensador para toda a familia.</p>
+        </div>
+        <div class="g3" style="margin-bottom:1.25rem">
+          <div class="card" style="margin-bottom:0;text-align:center"><div style="font-size:32px;margin-bottom:8px">&#128161;</div><div style="font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:6px">Inovacao</div><div style="font-size:13px;color:var(--mu);line-height:1.6">IA ativa, gamificacao e HB Junior como diferenciais no mercado financeiro digital.</div></div>
+          <div class="card" style="margin-bottom:0;text-align:center"><div style="font-size:32px;margin-bottom:8px">&#129309;</div><div style="font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:6px">Acessibilidade</div><div style="font-size:13px;color:var(--mu);line-height:1.6">Para pessoas fisicas, MEI, empresas e criancas - uma plataforma para toda a familia.</div></div>
+          <div class="card" style="margin-bottom:0;text-align:center"><div style="font-size:32px;margin-bottom:8px">&#127807;</div><div style="font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:6px">Crescimento</div><div style="font-size:13px;color:var(--mu);line-height:1.6">Cada usuario evolui continuamente sua relacao com o dinheiro - disciplina que vira habito.</div></div>
+        </div>
+        <div class="card">
+          <div class="c-ttl" style="margin-bottom:1rem;font-size:16px">Nossos pilares</div>
+          <div class="vrow"><div class="v-ico">&#128202;</div><div><div style="font-size:14px;font-weight:600;margin-bottom:3px">Controle financeiro simplificado</div><div style="font-size:13px;color:var(--mu);line-height:1.6">Registro de entradas e saidas com categorizacao inteligente e visualizacao clara.</div></div></div>
+          <div class="vrow"><div class="v-ico">&#129302;</div><div><div style="font-size:14px;font-weight:600;margin-bottom:3px">Inteligencia Artificial ativa</div><div style="font-size:13px;color:var(--mu);line-height:1.6">IA que analisa comportamentos, sugere melhorias e envia lembretes para manter consistencia.</div></div></div>
+          <div class="vrow"><div class="v-ico">&#9889;</div><div><div style="font-size:14px;font-weight:600;margin-bottom:3px">Gamificacao com Pointspay</div><div style="font-size:13px;color:var(--mu);line-height:1.6">Disciplina financeira transformada em recompensa real e experiencia motivadora.</div></div></div>
+          <div class="vrow" style="border-bottom:none"><div class="v-ico">&#129302;</div><div><div style="font-size:14px;font-weight:600;margin-bottom:3px">HB Junior - Robo educador</div><div style="font-size:13px;color:var(--mu);line-height:1.6">IA para criancas: missoes financeiras, controle de mesada e educacao ludica.</div></div></div>
+        </div>
+        <div style="text-align:center;padding:1.5rem 0">
+          <button class="btn-cta" onclick="goPage('contato',null)">Fale conosco &rarr;</button>
+        </div>
+      </div>
+
+      <!-- ===== CONTATO ===== -->
+      <div id="pcontato" class="page">
+        <div class="ph"><h1>Contato</h1><p>Entre em contato com a equipe HabitBank</p></div>
+        <div class="g2" style="margin-bottom:1.25rem">
+          <a class="ctcard" href="https://instagram.com/habitbank.app" target="_blank">
+            <div class="ct-ico p">&#128247;</div>
+            <div><div class="ct-nm">Instagram</div><div class="ct-vl">@habitbank.app</div><div class="ct-ds">Acompanhe novidades, dicas e atualizacoes</div></div>
+          </a>
+          <a class="ctcard" href="mailto:app.habitbank@gmail.com">
+            <div class="ct-ico g">&#9993;</div>
+            <div><div class="ct-nm">E-mail</div><div class="ct-vl">app.habitbank@gmail.com</div><div class="ct-ds">Suporte, parcerias e duvidas gerais</div></div>
+          </a>
+        </div>
+        <div class="card">
+          <div class="c-ttl" style="margin-bottom:1.25rem">Enviar mensagem</div>
+          <div class="fg">
+            <div class="ff"><label class="flbl">Nome completo</label><input class="fi" placeholder="Seu nome"/></div>
+            <div class="ff"><label class="flbl">E-mail</label><input class="fi" type="email" placeholder="seu@email.com"/></div>
+            <div class="ff"><label class="flbl">Assunto</label><select class="fsel"><option>Suporte tecnico</option><option>Parceria comercial</option><option>Sugestao de melhoria</option><option>Imprensa / Midia</option><option>Outros</option></select></div>
+            <div class="ff"><label class="flbl">Telefone (opcional)</label><input class="fi" placeholder="(00) 00000-0000"/></div>
+            <div class="ff full"><label class="flbl">Mensagem</label><textarea class="fi" rows="4" placeholder="Como podemos ajudar?" style="resize:vertical;line-height:1.5"></textarea></div>
+          </div>
+          <button class="btn-pr" style="max-width:220px;margin-top:12px" onclick="toast('Mensagem enviada! Em breve retornaremos &#128232;',true)">Enviar mensagem</button>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:28px;margin-bottom:10px">&#129302;</div>
+          <div style="font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:8px">HabitBank Beta</div>
+          <div style="font-size:13px;color:var(--mu);line-height:1.7;max-width:480px;margin:0 auto">Estamos em fase beta e sua opiniao e fundamental! Relate bugs, sugira funcionalidades e nos ajude a construir o melhor app financeiro do Brasil.</div>
+          <div style="display:flex;justify-content:center;gap:16px;margin-top:1.25rem;flex-wrap:wrap">
+            <a href="https://instagram.com/habitbank.app" target="_blank" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--purple);text-decoration:none;padding:8px 16px;border:1px solid var(--plight);border-radius:999px;background:var(--plight)">&#128247; @habitbank.app</a>
+            <a href="mailto:app.habitbank@gmail.com" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--gdark);text-decoration:none;padding:8px 16px;border:1px solid var(--glight);border-radius:999px;background:var(--glight)">&#9993; app.habitbank@gmail.com</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /shell -->
+
+  <!-- MOBILE NAV -->
+  <nav class="mob-nav">
+    <button class="mb on" id="mb-d" onclick="goPage('dashboard',this);updMob('d')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Inicio</button>
+    <button class="mb" id="mb-r" onclick="goPage('registrar',this);updMob('r')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Registrar</button>
+    <button class="mb" id="mb-j" onclick="goPage('junior',this);updMob('j')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M8 21v-1a4 4 0 018 0v1"/></svg>Junior</button>
+    <button class="mb" id="mb-p" onclick="goPage('pointspay',this);updMob('p')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Pontos</button>
+    <button class="mb" id="mb-c" onclick="goPage('config',this);updMob('c')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Config</button>
+  </nav>
+</div><!-- /screen-app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+const st={pts:1240,saldo:3420,ent:4600,sai:2180,tipo:'e',
+  txs:[
+    {d:'Salario marco',c:'&#128188; Salario',v:4000,t:'e',dt:'22/03/2025',ct:'Conta corrente'},
+    {d:'Supermercado BH',c:'&#127828; Alimentacao',v:280,t:'s',dt:'21/03/2025',ct:'Cartao de credito'},
+    {d:'Freelance - Logo',c:'&#128187; Freelance',v:600,t:'e',dt:'20/03/2025',ct:'PIX'},
+    {d:'Uber',c:'&#128663; Transporte',v:45,t:'s',dt:'19/03/2025',ct:'Cartao de credito'},
+    {d:'Restaurante',c:'&#127828; Alimentacao',v:120,t:'s',dt:'18/03/2025',ct:'Dinheiro'},
+    {d:'Netflix+Spotify',c:'&#127918; Lazer',v:65,t:'s',dt:'17/03/2025',ct:'Cartao de credito'},
+    {d:'Farmacia',c:'&#128138; Saude',v:90,t:'s',dt:'15/03/2025',ct:'Dinheiro'},
+    {d:'Aluguel',c:'&#127968; Moradia',v:950,t:'s',dt:'05/03/2025',ct:'Conta corrente'},
+  ],
+  pe:[
+    {d:'Registrou movimentacao',t:'e',v:20,dt:'23/03/2025',i:'&#128221;'},
+    {d:'Sequencia diaria (dia 7)',t:'e',v:10,dt:'23/03/2025',i:'&#128293;'},
+    {d:'Bonus de onboarding',t:'b',v:200,dt:'22/03/2025',i:'&#127873;'},
+    {d:'Registrou movimentacao',t:'e',v:20,dt:'22/03/2025',i:'&#128221;'},
+    {d:'Completou desafio semanal',t:'e',v:100,dt:'21/03/2025',i:'&#127941;'},
+    {d:'Resgatou Cashback 5%',t:'u',v:-500,dt:'20/03/2025',i:'&#128184;'},
+    {d:'Registrou movimentacao',t:'e',v:20,dt:'20/03/2025',i:'&#128221;'},
+    {d:'Meta parcial atingida 50%',t:'e',v:50,dt:'19/03/2025',i:'&#127919;'},
+    {d:'Registrou movimentacao',t:'e',v:20,dt:'18/03/2025',i:'&#128221;'},
+    {d:'Sequencia 5 dias',t:'e',v:30,dt:'17/03/2025',i:'&#128293;'},
+  ]
+};
+let cstep=1;
+
+function showScr(id){document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('on')});document.getElementById(id).classList.add('on')}
+function goLogin(){showScr('sl')}
+function goLanding(){showScr('sla')}
+function enterApp(){
+  showScr('sa');
+  setTimeout(()=>{renDTx();renStreak();renBar();renPE();updPts();updBal();const d=document.getElementById('fdata');if(d)d.value=new Date().toISOString().split('T')[0];},60);
+}
+function doLogin(){
+  const e=document.getElementById('le').value,p=document.getElementById('lp').value;
+  if(!e||!p){toast('Preencha e-mail e senha!');return}
+  toast('Autenticando...');setTimeout(()=>enterApp(),700);
+}
+function swTab(btn,fid){
+  document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
+  ['sf1','sf2'].forEach(id=>document.getElementById(id).classList.toggle('hide',id!==fid));
+}
+const pgmap={dashboard:'pd',registrar:'preg',extrato:'pext',metas:'pmetas',junior:'pjunior',pointspay:'ppts',ia:'pia',config:'pconfig',sobre:'psobre',contato:'pcontato'};
+const pnm={dashboard:'Dashboard',registrar:'Nova Movimentacao',extrato:'Extrato',metas:'Metas',junior:'HB Junior',pointspay:'Pointspay',ia:'IA Financeira',config:'Configuracoes',sobre:'Sobre nos',contato:'Contato'};
+function goPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('on'));
+  document.getElementById(pgmap[id]).classList.add('on');
+  if(btn&&btn.classList.contains('ni'))btn.classList.add('on');
+  const t=document.getElementById('tbtl');if(t)t.textContent=pnm[id]||id;
+  if(id==='extrato')renExt();
+}
+function updMob(id){document.querySelectorAll('.mb').forEach(b=>b.classList.remove('on'));const e=document.getElementById('mb-'+id);if(e)e.classList.add('on')}
+function goSP(id,btn){document.querySelectorAll('.sp').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));document.getElementById('sp-'+id).classList.add('on');btn.classList.add('on')}
+function togBtn(b){b.classList.toggle('on');toast(b.classList.contains('on')?'Ativado ✅':'Desativado',b.classList.contains('on'))}
+function nxStep(n){document.getElementById('s'+cstep).classList.remove('on');cstep=n;document.getElementById('s'+n).classList.add('on')}
+function closeOv(){document.getElementById('ov').classList.add('hide');st.pts+=200;updPts();toast('Bem-vindo! +200 Pointspay &#127881;',true)}
+function selP(btn){document.querySelectorAll('.popt').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function setTipo(t){st.tipo=t;document.getElementById('bte').classList.toggle('on',t==='e');document.getElementById('bte').classList.toggle('e',t==='e');document.getElementById('bts').classList.toggle('on',t==='s');document.getElementById('bts').classList.toggle('s',t==='s')}
+function regTx(){
+  const desc=document.getElementById('fdesc').value.trim(),val=parseFloat(document.getElementById('fval').value),cat=document.getElementById('fcat').value,dt=document.getElementById('fdata').value,ct=document.getElementById('fconta').value;
+  if(!desc||!val||val<=0){toast('Preencha descricao e valor!');return}
+  const d=dt?new Date(dt+'T00:00:00'):new Date();
+  const df=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  st.txs.unshift({d:desc,c:cat,v:val,t:st.tipo,dt:df,ct:ct});
+  st.pts+=20;
+  if(st.tipo==='e'){st.ent+=val;st.saldo+=val}else{st.sai+=val;st.saldo-=val}
+  st.pe.unshift({d:'Registrou movimentacao',t:'e',v:20,dt:df,i:'&#128221;'});
+  updPts();updBal();renDTx();renPE();
+  document.getElementById('fdesc').value='';document.getElementById('fval').value='';
+  toast('+20 Pointspay! Movimentacao registrada ✅',true);
+}
+function resgatar(nm,pts){
+  if(st.pts<pts){toast('Pontos insuficientes!');return}
+  st.pts-=pts;
+  const d=new Date(),df=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  st.pe.unshift({d:'Resgatou '+nm,t:'u',v:-pts,dt:df,i:'&#127873;'});
+  updPts();renPE();toast(nm+' resgatado! &#127873;',true);
+}
+function updPts(){
+  const f=n=>n.toLocaleString('pt-BR');
+  [document.getElementById('ptsd'),document.getElementById('pmob')].forEach(e=>{if(e)e.textContent=f(st.pts)+(e.id==='pmob'?' pts':' pts')});
+  document.getElementById('mpts').textContent=f(st.pts);
+  document.getElementById('phv').textContent=f(st.pts);
+  const p=Math.min(100,Math.round((st.pts-500)/15));
+  document.getElementById('ppbar').style.width=p+'%';
+  document.getElementById('pplbl').textContent=f(st.pts)+' / 2.000 pts';
+  document.getElementById('ppflt').textContent=f(Math.max(0,2000-st.pts));
+}
+function updBal(){
+  const fmt=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  document.getElementById('hsaldo').textContent=fmt(st.saldo);
+  document.getElementById('hent').textContent='+ R$ '+st.ent.toLocaleString('pt-BR');
+  document.getElementById('hsai').textContent='- R$ '+st.sai.toLocaleString('pt-BR');
+  document.getElementById('mgastos').textContent='R$ '+st.sai.toLocaleString('pt-BR');
+}
+const imap={'&#128188; Salario':'g','&#128187; Freelance':'g','&#127828; Alimentacao':'r','&#127968; Moradia':'a','&#128663; Transporte':'b','&#128138; Saude':'a','&#127918; Lazer':'r','&#128084; Vestuario':'b','&#128218; Educacao':'b','&#128230; Outros':'a'};
+function txH(t){
+  const cl=imap[t.c]||'b',sg=t.t==='e'?'+':'-',vc=t.t==='e'?'p':'m',em=t.c.split(' ')[0];
+  return `<div class="txi"><div class="tx-l"><div class="tx-ico ${cl}">${em}</div><div><div class="tx-nm">${t.d}</div><div class="tx-ct">${t.c.replace(/^\S+\s/,'')} &middot; ${t.ct}</div></div></div><div class="tx-r"><div class="tx-v ${vc}">${sg} R$ ${t.v.toLocaleString('pt-BR')}</div><div class="tx-dt">${t.dt}</div></div></div>`;
+}
+function renDTx(){const e=document.getElementById('dtxl');if(e)e.innerHTML=st.txs.slice(0,5).map(txH).join('')}
+function renExt(){
+  const ft=document.getElementById('ftipo').value,fc=document.getElementById('fcat2').value;
+  const ls=st.txs.filter(t=>{if(ft&&t.t!==ft)return false;if(fc&&!t.c.includes(fc.replace(/^\S+\s/,'')))return false;return true});
+  const e=document.getElementById('extl');
+  if(!ls.length){e.innerHTML='<div style="text-align:center;color:var(--mu);padding:2rem;font-size:14px">Nenhuma movimentacao encontrada.</div>';return}
+  e.innerHTML=ls.map(txH).join('');
+}
+function renPE(){
+  const e=document.getElementById('pext2');if(!e)return;
+  e.innerHTML=st.pe.map(x=>{
+    const cl=x.t==='u'?'u':(x.t==='b'?'b':'e'),vc=x.t==='u'?'u':'e',sg=x.v>0?'+':'';
+    return `<div class="pe-i"><div class="pe-l"><div class="pe-ic ${cl}">${x.i}</div><div><div class="pe-nm">${x.d}</div><div class="pe-dt">${x.dt}</div></div></div><div class="pe-v ${vc}">${sg}${x.v} pts</div></div>`;
+  }).join('');
+}
+function renStreak(){
+  const g=document.getElementById('strk');if(!g)return;
+  const days=['S','T','Q','Q','S','S','D','S','T','Q','Q','S','S','D','S','T','Q','Q','S','S','D','S','T'];
+  g.innerHTML=days.map((d,i)=>{let c=i<20?'dn':(i===22?'td':(i===21?'ms':''));return `<div class="sd ${c}">${d}</div>`}).join('');
+}
+function renBar(){
+  const c=document.getElementById('bch');if(!c)return;
+  const wks=[{l:'S1',r:1400,d:820},{l:'S2',r:1200,d:680},{l:'S3',r:1600,d:540},{l:'S4',r:400,d:140}];
+  const mx=Math.max(...wks.flatMap(w=>[w.r,w.d]));
+  c.innerHTML=wks.map(w=>`<div class="bw" style="gap:0;flex-direction:column;justify-content:flex-end;align-items:center"><div style="display:flex;gap:4px;align-items:flex-end;height:90px"><div class="bar g" style="width:22px;height:${Math.round((w.r/mx)*90)}px"></div><div class="bar r" style="width:22px;height:${Math.round((w.d/mx)*90)}px"></div></div><div class="bl" style="margin-top:6px">${w.l}</div></div>`).join('');
+}
+function selKid(el){document.querySelectorAll('.kc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel')}
+function sendJr(){
+  const inp=document.getElementById('jci');const txt=inp.value.trim();if(!txt)return;
+  const ms=document.getElementById('jmsgs');
+  ms.innerHTML+=`<div class="jmsg usr"><div class="jmsg-s" style="color:rgba(255,255,255,.8)">Pedro</div>${txt}</div>`;
+  inp.value='';ms.scrollTop=ms.scrollHeight;
+  const rs=['Otima pergunta! &#127775; Guardar dinheiro e um super poder!','Muito bem! Continue assim e voce vai bater sua meta! &#127919;','Sabia que economizar R$ 1 por dia vira R$ 365 no ano? &#129327;','Voce esta indo muito bem! Sua sequencia esta otima! &#128293;','Lembre-se: cada centavo guardado e um passo rumo ao Nintendo Switch! &#127918;'];
+  setTimeout(()=>{ms.innerHTML+=`<div class="jmsg bot"><div class="jmsg-s" style="color:var(--jrdark)">HB Junior</div>${rs[Math.floor(Math.random()*rs.length)]}</div>`;ms.scrollTop=ms.scrollHeight},800);
+}
+function toast(msg,green=false){
+  const t=document.getElementById('toast');t.innerHTML=msg;t.className='toast'+(green?' gt':'')+ ' show';
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
