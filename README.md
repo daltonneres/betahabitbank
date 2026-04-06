@@ -2,23 +2,23 @@
 
 O HabitBank é uma plataforma digital focada em ajudar pessoas a desenvolverem uma vida financeira mais organizada e consistente através da criação de hábitos.
 
-🚀 Sobre o projeto
+🚀 Sobre o projeto:
 
 O HabitBank nasce com o propósito de transformar a forma como as pessoas lidam com o dinheiro, utilizando tecnologia para incentivar disciplina, controle e evolução financeira no dia a dia.
 A ideia central é simples:
 pequenos hábitos constroem grandes resultados.
 
-🎯 Área de atuação
+🎯 Área de atuação:
 
 Fintech voltada para gestão financeira pessoal baseada em hábitos, unindo tecnologia, organização e produtividade.
 
-🧠 Problema | Muitas pessoas enfrentam dificuldades para:
+🧠 Problema:
 
 Organizar suas finanças
 Manter constância no controle financeiro
 Criar hábitos saudáveis relacionados ao dinheiro
 
-💡 Solução | O HabitBank propõe:
+💡 Solução:
 
 Organização financeira simplificada
 Criação e acompanhamento de hábitos
@@ -36,18 +36,18 @@ Automação de processos financeiros
 🚧 Em desenvolvimento
 📍 Em processo de incubação (SudoTec — Dois Vizinhos/PR)
 
-👨‍💻 Equipe
+👨‍💻 Equipe:
 
 Dalton Neres — Diretor & Desenvolvedor
 Guilherme Silva — Diretor & Desenvolvedor
 
-🌐 Contato
+🌐 Contato:
 
 📩 Email: habitbank.app@gmail.com
 📱 Instagram: @habitbank.app
 
-📌 Objetivo
+📌 Objetivo:
 Construir uma plataforma que ajude pessoas a desenvolverem consistência financeira, através de tecnologia simples, prática e eficiente.
 
-📝 Licença
+📝 Licença:
 Este projeto está em desenvolvimento e seu uso é restrito.
