@@ -2,309 +2,584 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HabitPay — Termos e Privacidade</title>
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Termos de Uso — HabitPay</title>
+    <link rel="icon" type="image/png" href="HabitPay/favicon.png" />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
-
     <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       :root {
         --g: #1d9e75;
         --gd: #085041;
         --gl: #e1f5ee;
-        --bg: #f8f9f7;
-        --sf: #fff;
         --tx: #1a1a1a;
         --mu: #6b7280;
+        --bg: #f8f9f7;
+        --sf: #fff;
         --bd: rgba(0, 0, 0, 0.08);
-        --sh: 0 8px 25px rgba(0, 0, 0, 0.08);
-        --ra: 14px;
+        --fd: "Syne", sans-serif;
+        --fb: "DM Sans", sans-serif;
       }
-
       body {
-        margin: 0;
-        font-family: "DM Sans", sans-serif;
+        font-family: var(--fb);
         background: var(--bg);
         color: var(--tx);
+        font-size: 16px;
         line-height: 1.7;
       }
-
-      .container {
-        max-width: 1100px;
-        margin: auto;
-        padding: 40px 20px;
-      }
-
-      .header {
-        text-align: center;
-        margin-bottom: 40px;
+      .topbar {
+        background: var(--sf);
+        border-bottom: 1px solid var(--bd);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
       .logo {
-        font-family: "Syne";
-        font-size: 36px;
+        font-family: var(--fd);
+        font-size: 20px;
         font-weight: 800;
-      }
-      .logo span {
         color: var(--g);
       }
-      .subtitle {
-        color: var(--mu);
+      .logo span {
+        color: var(--tx);
+        opacity: 0.4;
       }
-
-      .card {
-        background: #fff;
-        padding: 40px;
-        border-radius: var(--ra);
-        box-shadow: var(--sh);
+      .btn-back {
+        font-family: var(--fb);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 7px 16px;
+        border: 1px solid var(--g);
+        border-radius: 999px;
+        color: var(--g);
+        background: transparent;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.15s;
       }
-
-      h2 {
-        color: var(--gd);
-        margin-top: 35px;
-      }
-      h3 {
-        margin-top: 20px;
-      }
-
-      ul {
-        padding-left: 20px;
-      }
-      li {
-        margin-bottom: 6px;
-      }
-
-      .highlight {
-        background: var(--gl);
-        padding: 15px;
-        border-radius: var(--ra);
-        margin: 15px 0;
-      }
-
-      .btn {
-        display: inline-block;
-        margin-top: 30px;
+      .btn-back:hover {
         background: var(--g);
         color: #fff;
-        padding: 12px 20px;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: 0.2s;
       }
-
-      .btn:hover {
-        background: var(--gd);
-        transform: translateY(-2px);
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
       }
-
-      .footer {
-        text-align: center;
-        margin-top: 40px;
-        color: var(--mu);
+      .badge {
+        display: inline-block;
+        background: var(--gl);
+        color: var(--gd);
         font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 999px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+      h1 {
+        font-family: var(--fd);
+        font-size: clamp(26px, 4vw, 38px);
+        font-weight: 800;
+        color: var(--tx);
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+      }
+      .subtitle {
+        font-size: 15px;
+        color: var(--mu);
+        margin-bottom: 0.5rem;
+      }
+      .updated {
+        font-size: 13px;
+        color: var(--mu);
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--bd);
+      }
+      h2 {
+        font-family: var(--fd);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--tx);
+        margin: 2.5rem 0 0.75rem;
+      }
+      p {
+        color: var(--mu);
+        margin-bottom: 1rem;
+      }
+      ul,
+      ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      li {
+        color: var(--mu);
+        margin-bottom: 0.4rem;
+        line-height: 1.65;
+      }
+      .highlight {
+        background: var(--gl);
+        border-left: 3px solid var(--g);
+        border-radius: 0 8px 8px 0;
+        padding: 1rem 1.25rem;
+        margin: 1.5rem 0;
+      }
+      .highlight p {
+        margin-bottom: 0;
+        color: var(--gd);
+        font-weight: 500;
+      }
+      .section {
+        border-bottom: 1px solid var(--bd);
+        padding-bottom: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .section:last-child {
+        border-bottom: none;
+      }
+      .footer-terms {
+        text-align: center;
+        padding: 2rem 0 0;
+        font-size: 13px;
+        color: var(--mu);
+      }
+      a {
+        color: var(--g);
+      }
+      strong {
+        color: var(--tx);
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 2rem 1rem 4rem;
+        }
       }
     </style>
   </head>
-
   <body>
+    <div class="topbar">
+      <div class="logo">Habit<span>Pay</span></div>
+      <a href="index.html" class="btn-back">&#8592; Voltar ao app</a>
+    </div>
+
     <div class="container">
-      <div class="header">
-        <div class="logo">Habit<span>Pay</span></div>
-        <h1>Termos de Uso e Política de Privacidade</h1>
-        <div class="subtitle">Versão completa • Abril de 2026</div>
+      <div class="badge">Documento legal</div>
+      <h1>Termos de Uso e Política de Privacidade</h1>
+      <div class="subtitle">HabitPay — Plataforma de Gestão Financeira</div>
+      <div class="updated">
+        Versão 1.0 &middot; Vigente desde 01 de janeiro de 2026 &middot; Última
+        atualização: abril de 2026
       </div>
 
-      <div class="card">
-        <h2>1. Propósito da Plataforma</h2>
+      <div class="highlight">
         <p>
-          O HabitPay foi desenvolvido com o objetivo de transformar a forma como
-          pessoas e empresas lidam com o dinheiro, combinando tecnologia,
-          comportamento e inteligência artificial.
+          &#128276; Ao criar uma conta ou acessar o HabitPay, você concorda
+          integralmente com estes Termos de Uso e com nossa Política de
+          Privacidade. Leia com atenção antes de prosseguir.
         </p>
-
-        <p>
-          Diferente de soluções tradicionais, a plataforma não se limita ao
-          controle financeiro, mas atua diretamente na construção de hábitos
-          financeiros saudáveis, promovendo evolução contínua.
-        </p>
-
-        <div class="highlight">
-          O HabitPay não é um banco, não movimenta dinheiro e não realiza
-          transações financeiras.
-        </div>
-
-        ---
-
-        <h2>2. Sobre a Equipe</h2>
-        <p>
-          O projeto é desenvolvido por profissionais da área de tecnologia com
-          foco em soluções digitais inovadoras.
-        </p>
-
-        <ul>
-          <li>
-            <strong>Dalton José Neres</strong> — Diretor Executivo |
-            Desenvolvedor Full Stack | Desenvolvedor de Software na CISS S.A
-          </li>
-          <li>
-            <strong>Guilherme Silva</strong> — Diretor Executivo | Desenvolvedor
-            Full Stack
-          </li>
-        </ul>
-
-        <p>
-          A equipe é responsável pela tecnologia e evolução do sistema, não
-          atuando como consultores financeiros.
-        </p>
-
-        ---
-
-        <h2>3. Aceitação dos Termos</h2>
-        <p>
-          Ao acessar ou utilizar o HabitPay, você declara que leu, compreendeu e
-          concorda com estes termos.
-        </p>
-
-        ---
-
-        <h2>4. Uso da Plataforma</h2>
-
-        <h3>4.1 Responsabilidades do Usuário</h3>
-        <ul>
-          <li>Informar dados verdadeiros;</li>
-          <li>Manter a segurança da conta;</li>
-          <li>Utilizar a plataforma de forma ética;</li>
-          <li>Não tentar explorar falhas do sistema.</li>
-        </ul>
-
-        <h3>4.2 Tipos de Uso</h3>
-        <ul>
-          <li>Individual</li>
-          <li>Casal / Família</li>
-          <li>República</li>
-          <li>Empresarial (PME)</li>
-        </ul>
-
-        ---
-
-        <h2>5. Funcionamento e Limitações</h2>
-        <p>
-          O HabitPay oferece ferramentas inteligentes para organização e análise
-          financeira.
-        </p>
-
-        <ul>
-          <li>Registro de receitas e despesas;</li>
-          <li>Análise de comportamento;</li>
-          <li>Relatórios e evolução;</li>
-          <li>Automação de dados.</li>
-        </ul>
-
-        <p>
-          O sistema pode sofrer alterações sem aviso prévio visando melhorias.
-        </p>
-
-        ---
-
-        <h2>6. Inteligência Artificial (HB Junior)</h2>
-        <p>
-          A IA HB Junior analisa comportamentos e sugere melhorias financeiras.
-        </p>
-
-        <ul>
-          <li>Baseada em padrões e probabilidades;</li>
-          <li>Pode conter imprecisões;</li>
-          <li>Não substitui aconselhamento profissional;</li>
-          <li>Serve como apoio à decisão.</li>
-        </ul>
-
-        ---
-
-        <h2>7. Gamificação (Pointspay)</h2>
-        <p>
-          O sistema incentiva disciplina financeira por meio de recompensas.
-        </p>
-
-        <ul>
-          <li>Sem valor financeiro garantido;</li>
-          <li>Pode sofrer alterações;</li>
-          <li>Pode ser encerrado a qualquer momento;</li>
-          <li>Incentiva consistência e recomeço.</li>
-        </ul>
-
-        ---
-
-        <h2>8. Limitação de Responsabilidade</h2>
-        <ul>
-          <li>Decisões financeiras são do usuário;</li>
-          <li>Não garantimos resultados;</li>
-          <li>Não nos responsabilizamos por perdas;</li>
-          <li>Não garantimos funcionamento contínuo.</li>
-        </ul>
-
-        ---
-
-        <h2>9. Coleta de Dados</h2>
-        <ul>
-          <li>Dados pessoais (nome, e-mail);</li>
-          <li>Dados financeiros inseridos;</li>
-          <li>Dados de uso;</li>
-          <li>Informações técnicas.</li>
-        </ul>
-
-        ---
-
-        <h2>10. Uso dos Dados</h2>
-        <ul>
-          <li>Personalização;</li>
-          <li>IA e análises;</li>
-          <li>Segurança;</li>
-          <li>Melhoria do sistema.</li>
-        </ul>
-
-        ---
-
-        <h2>11. Privacidade (LGPD)</h2>
-        <p>Seus dados são tratados conforme a legislação brasileira.</p>
-
-        <ul>
-          <li>Acesso</li>
-          <li>Correção</li>
-          <li>Exclusão</li>
-          <li>Revogação</li>
-          <li>Portabilidade</li>
-        </ul>
-
-        ---
-
-        <h2>12. Segurança</h2>
-        <p>
-          Adotamos medidas técnicas para proteção dos dados, mas nenhum sistema
-          é totalmente seguro.
-        </p>
-
-        ---
-
-        <h2>13. Cookies</h2>
-        <p>Utilizamos cookies para melhorar a experiência e análise de uso.</p>
-
-        ---
-
-        <h2>14. Atualizações</h2>
-        <p>Os termos podem ser atualizados a qualquer momento.</p>
-
-        ---
-
-        <h2>15. Contato</h2>
-        <p>app.habitbank@gmail.com</p>
-
-        <!-- BOTÃO VOLTAR -->
-        <a href="index.html" class="btn">← Voltar para página inicial</a>
       </div>
 
-      <div class="footer">© 2026 HabitPay — Todos os direitos reservados</div>
+      <div class="section">
+        <h2>1. Sobre o HabitPay</h2>
+        <p>
+          O HabitPay é uma plataforma digital de gestão financeira que oferece
+          ferramentas para controle de receitas e despesas, metas financeiras,
+          gamificação com o sistema Pointspay e educação financeira para
+          crianças através do HB Junior.
+        </p>
+        <p>
+          O serviço é operado em fase beta e pode sofrer alterações,
+          interrupções ou descontinuações a qualquer momento. Notificaremos os
+          usuários com antecedência mínima de 15 dias em caso de encerramento
+          definitivo.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>1.1 Desenvolvimento e Incubação</h2>
+
+        <p>
+          O HabitPay é um projeto em desenvolvimento contínuo, atualmente em
+          fase de pré-incubação na
+          <strong
+            >Sudotec (Associação para o Desenvolvimento Tecnológico e Industrial
+            do Sudoeste do Paraná)</strong
+          >, localizada em Dois Vizinhos – PR.
+        </p>
+
+        <p>
+          A incubação tem como objetivo apoiar a estruturação do negócio,
+          validação de mercado, desenvolvimento tecnológico e preparação para
+          escalabilidade, fornecendo suporte estratégico, mentorias e ambiente
+          de inovação.
+        </p>
+
+        <p>
+          Durante este período, o sistema pode passar por atualizações
+          frequentes, testes de funcionalidades e ajustes estruturais, visando
+          garantir a melhor experiência ao usuário e a evolução contínua da
+          plataforma.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>1.2 Equipe de Desenvolvimento</h2>
+
+        <p>
+          O HabitPay é desenvolvido por uma equipe com formação técnica e
+          atuação prática na área de tecnologia, combinando conhecimentos em
+          desenvolvimento de software, lógica de programação e soluções
+          digitais.
+        </p>
+
+        <p>
+          <strong>Dalton Neres</strong> — Desenvolvedor Full Stack, estudante da
+          área de tecnologia, com atuação prática no desenvolvimento de
+          sistemas, automações e soluções digitais. Atua diretamente na
+          arquitetura, desenvolvimento e evolução do HabitPay.
+        </p>
+
+        <p>
+          <strong>Guilherme Silva</strong> — Desenvolvedor com formação em
+          Comunicação, Matemática e Lógica de Programação, com experiência em
+          desenvolvimento Java, banco de dados e construção de soluções
+          tecnológicas.
+        </p>
+
+        <p>
+          A equipe atua de forma contínua na evolução da plataforma, com foco em
+          inovação, experiência do usuário e desenvolvimento de soluções
+          acessíveis e eficientes.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>2. Elegibilidade e Cadastro</h2>
+        <p>Para utilizar o HabitPay, o usuário deve:</p>
+        <ul>
+          <li>
+            Ter pelo menos <strong>18 anos de idade</strong> (ou 14 anos com
+            consentimento dos responsáveis)
+          </li>
+          <li>
+            Fornecer informações verdadeiras, precisas e atualizadas no cadastro
+          </li>
+          <li>
+            Manter a confidencialidade de sua senha e não compartilhar acesso
+            com terceiros
+          </li>
+          <li>
+            Possuir capacidade legal para celebrar contratos no território
+            brasileiro
+          </li>
+        </ul>
+        <p>
+          O HabitPay reserva-se o direito de recusar, suspender ou encerrar
+          contas a seu critério, especialmente em casos de uso indevido ou
+          violação destes termos.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>3. Perfis de Uso</h2>
+        <p>O HabitPay oferece diferentes modalidades de conta:</p>
+        <ul>
+          <li>
+            <strong>Individual:</strong> Uso pessoal para controle financeiro
+            próprio
+          </li>
+          <li>
+            <strong>Casal:</strong> Conta compartilhada entre dois parceiros com
+            permissões configuradas pelo titular
+          </li>
+          <li>
+            <strong>Família:</strong> Núcleo familiar com suporte ao HB Junior
+            para educação financeira infantil
+          </li>
+          <li>
+            <strong>República:</strong> Compartilhamento de despesas entre
+            moradores de um mesmo imóvel
+          </li>
+          <li>
+            <strong>Pequena empresa:</strong> Pessoas jurídicas com até 49
+            funcionários (requer CNPJ válido)
+          </li>
+          <li>
+            <strong>Média empresa:</strong> Pessoas jurídicas com 50 a 499
+            funcionários (requer CNPJ válido)
+          </li>
+        </ul>
+        <p>
+          Cada perfil possui regras de acesso e permissões específicas. O
+          titular da conta é responsável pelo uso feito por todos os membros
+          adicionados.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>4. Serviços e Funcionalidades</h2>
+        <p>O HabitPay oferece, entre outros:</p>
+        <ul>
+          <li>Registro e categorização de transações financeiras</li>
+          <li>Visualização de extratos, gráficos e relatórios</li>
+          <li>Sistema de metas financeiras com acompanhamento de progresso</li>
+          <li>
+            Programa de recompensas Pointspay baseado em consistência de uso
+          </li>
+          <li>
+            Inteligência artificial para análise de comportamento financeiro
+          </li>
+          <li>
+            HB Junior: robô educador financeiro para crianças e adolescentes
+          </li>
+          <li>Configurações de idioma, layout e acessibilidade</li>
+        </ul>
+        <p>
+          Algumas funcionalidades estão disponíveis apenas na versão Premium ou
+          mediante condições específicas de uso.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>5. Pointspay — Programa de Recompensas</h2>
+        <p>
+          O Pointspay é um sistema de pontos vinculado a consistência e
+          disciplina financeira do usuário. Importante:
+        </p>
+        <ul>
+          <li>
+            Os pontos não possuem valor monetário real e não são transferíveis
+          </li>
+          <li>
+            As recompensas disponíveis podem ser alteradas sem aviso prévio
+          </li>
+          <li>
+            O HabitPay pode ajustar as regras de acúmulo e resgate a qualquer
+            momento
+          </li>
+          <li>
+            Pontos expiram em caso de inatividade superior a 12 meses
+            consecutivos
+          </li>
+          <li>
+            O abuso do sistema (simulação de atividade, automação, etc.)
+            resultará em banimento
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>6. Privacidade e Proteção de Dados (LGPD)</h2>
+        <p>
+          O HabitPay está comprometido com a Lei Geral de Proteção de Dados (Lei
+          n.º 13.709/2018). Coletamos e tratamos os seguintes dados:
+        </p>
+        <ul>
+          <li>
+            <strong>Dados de cadastro:</strong> nome, e-mail, telefone,
+            CPF/CNPJ, data de nascimento
+          </li>
+          <li>
+            <strong>Dados financeiros:</strong> transações registradas
+            manualmente pelo usuário
+          </li>
+          <li>
+            <strong>Dados de uso:</strong> frequência de acesso, funcionalidades
+            utilizadas, preferências
+          </li>
+          <li>
+            <strong>Dados técnicos:</strong> endereço IP, dispositivo,
+            navegador, sistema operacional
+          </li>
+        </ul>
+        <p>
+          <strong>Base legal:</strong> tratamos seus dados com base no
+          consentimento (art. 7, I), execução de contrato (art. 7, V) e
+          interesse legítimo (art. 7, IX) da LGPD.
+        </p>
+        <p>
+          <strong>Retenção:</strong> seus dados são mantidos pelo período
+          necessário para a prestação do serviço. Em caso de exclusão de conta,
+          os dados são removidos em até 15 dias, salvo obrigações legais.
+        </p>
+        <p>
+          <strong>Seus direitos:</strong> você pode solicitar acesso, correção,
+          portabilidade, exclusão e revogação do consentimento a qualquer
+          momento pelo e-mail:
+          <a href="mailto:app.habitPay@gmail.com">app.habitPay@gmail.com</a>
+        </p>
+        <p>
+          O HabitPay não realiza venda de dados pessoais a terceiros. O
+          compartilhamento de dados, quando necessário, ocorre apenas com
+          parceiros essenciais para operação da plataforma, sempre respeitando
+          os princípios da LGPD, como finalidade, necessidade e transparência.
+        </p>
+
+        <p>
+          Em caso de incidentes de segurança que possam gerar risco ou dano
+          relevante ao usuário, o HabitPay se compromete a comunicar o ocorrido
+          em prazo razoável, conforme previsto na legislação.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>7. Segurança e Verificação em 2 Etapas</h2>
+        <p>O HabitPay adota medidas de segurança incluindo:</p>
+        <ul>
+          <li>
+            Verificação em duas etapas (2FA) por SMS no momento do cadastro
+          </li>
+          <li>Criptografia de dados em trânsito (TLS/HTTPS)</li>
+          <li>Autenticação biométrica opcional (Face ID, impressão digital)</li>
+          <li>Monitoramento de acessos suspeitos e notificação ao usuário</li>
+        </ul>
+        <p>
+          O usuário é responsável por manter sua senha segura. O HabitPay nunca
+          solicitará sua senha por e-mail, telefone ou chat.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>8. Exclusão de Conta</h2>
+        <p>
+          O usuário pode solicitar a exclusão de sua conta a qualquer momento
+          nas Configurações do aplicativo. Importante saber:
+        </p>
+        <ul>
+          <li>
+            Após a solicitação, há um
+            <strong>período de 15 dias corridos</strong> para cancelamento
+          </li>
+          <li>
+            Durante esse período, o usuário pode cancelar a exclusão acessando
+            normalmente o app
+          </li>
+          <li>
+            Após os 15 dias, todos os dados são removidos permanentemente e de
+            forma irrecuperável
+          </li>
+          <li>
+            O usuário recebe confirmação por e-mail e SMS ao solicitar e ao
+            concluir a exclusão
+          </li>
+          <li>
+            Dados exigidos por obrigações legais ou fiscais podem ser retidos
+            pelo prazo legal
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>8.1 Natureza da Plataforma</h2>
+
+        <p>
+          O HabitPay é uma plataforma tecnológica de apoio à organização
+          financeira pessoal e empresarial, não sendo uma instituição
+          financeira, banco, corretora ou entidade autorizada pelo Banco Central
+          do Brasil.
+        </p>
+
+        <p>
+          O sistema não realiza intermediação de pagamentos, concessão de
+          crédito, investimentos ou custódia de valores, limitando-se ao
+          fornecimento de ferramentas de gestão, análise e educação financeira.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>9. Limitacoes de Responsabilidade</h2>
+        <p></p>
+        <p>
+          O HabitPay é uma ferramenta de apoio à gestão financeira e
+          <strong>não substitui orientação profissional</strong>, seja ela
+          financeira, jurídica ou contábil. Todas as decisões tomadas com base
+          nas informações fornecidas pela plataforma são de responsabilidade
+          exclusiva do usuário.
+        </p>
+        <p>O HabitPay não se responsabiliza por:</p>
+        <ul>
+          <li>
+            Perdas financeiras decorrentes do uso ou não uso da plataforma
+          </li>
+          <li>Imprecisões nos dados inseridos pelo próprio usuário</li>
+          <li>Interrupções de serviço por manutenção ou falhas técnicas</li>
+          <li>
+            Acesso não autorizado causado por negligência do usuário com sua
+            senha
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>10. Alterações nos Termos</h2>
+        <p>
+          O HabitPay pode atualizar estes termos a qualquer momento.
+          Comunicaremos alterações relevantes por e-mail e notificação no app
+          com pelo menos <strong>15 dias de antecedência</strong>. O uso
+          continuado do serviço após esse prazo implica aceitação dos novos
+          termos.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>11. Contato e Canal de Dúvidas</h2>
+        <p>Para dúvidas, reclamações ou exercício de direitos:</p>
+        <ul>
+          <li>
+            <strong>E-mail:</strong>
+            <a href="mailto:app.habitbank@gmail.com">app.habitbank@gmail.com</a>
+          </li>
+          <li>
+            <strong>Instagram:</strong>
+            <a href="https://instagram.com/habitpay.app" target="_blank"
+              >@habitpay.app</a
+            >
+          </li>
+        </ul>
+        <p>
+          Encarregado de Dados (DPO): disponível pelo mesmo e-mail com o assunto
+          "LGPD — Solicitação".
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>12. Disposições Gerais</h2>
+        <p>
+          Estes termos são regidos pela legislação brasileira. Fica eleito o
+          foro da comarca de Curitiba/PR para resolução de conflitos, com
+          renúncia expressa a qualquer outro, por mais privilegiado que seja.
+        </p>
+        <p>
+          Caso alguma cláusula seja considerada inválida, as demais permaneçam
+          em pleno vigor.
+        </p>
+      </div>
+
+      <div class="footer-terms">
+        <p>HabitPay &copy; 2026 — Todos os direitos reservados — Versão Beta</p>
+        <p style="margin-top: 0.5rem">
+          <a href="mailto:app.habitbank@gmail.com">app.habitbank@gmail.com</a>
+          &middot;
+          <a href="https://instagram.com/habitpay.app" target="_blank"
+            >@habitpay.app</a
+          >
+        </p>
+      </div>
     </div>
   </body>
 </html>

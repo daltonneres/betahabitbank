@@ -1,25 +1,25 @@
 // ── STATE ──────────────────────────────────────────────────────
 const st = {
-    pts: 1240, saldo: 3420, ent: 4600, sai: 2180, tipo: 'e',
+    pts: 1240, saldo: 3420.00, ent: 4600.00, sai: 2180.00, tipo: 'e',
     txs: [
-        { d: 'Salario marco', c: '&#128188; Salario', v: 4000, t: 'e', dt: '22/03/2025', ct: 'Conta corrente' },
-        { d: 'Supermercado BH', c: '&#127828; Alimentacao', v: 280, t: 's', dt: '21/03/2025', ct: 'Cartao de credito' },
-        { d: 'Freelance - Logo', c: '&#128187; Freelance', v: 600, t: 'e', dt: '20/03/2025', ct: 'PIX' },
-        { d: 'Uber', c: '&#128663; Transporte', v: 45, t: 's', dt: '19/03/2025', ct: 'Cartao de credito' },
-        { d: 'Restaurante', c: '&#127828; Alimentacao', v: 120, t: 's', dt: '18/03/2025', ct: 'Dinheiro' },
-        { d: 'Netflix+Spotify', c: '&#127918; Lazer', v: 65, t: 's', dt: '17/03/2025', ct: 'Cartao de credito' },
-        { d: 'Farmacia', c: '&#128138; Saude', v: 90, t: 's', dt: '15/03/2025', ct: 'Dinheiro' },
-        { d: 'Aluguel', c: '&#127968; Moradia', v: 950, t: 's', dt: '05/03/2025', ct: 'Conta corrente' },
+        { d: 'Salário Março', c: '&#128188; Salário', v: 4000.00, t: 'e', dt: '22/03/2026', ct: 'Conta corrente' },
+        { d: 'Supermercado BH', c: '&#127828; Alimentação', v: 280.00, t: 's', dt: '21/03/2026', ct: 'Cartão de crédito' },
+        { d: 'Freelance - Logo', c: '&#128187; Freelance', v: 600.00, t: 'e', dt: '20/03/2026', ct: 'PIX' },
+        { d: 'Uber', c: '&#128663; Transporte', v: 45.00, t: 's', dt: '19/03/2026', ct: 'Cartão de crédito' },
+        { d: 'Restaurante', c: '&#127828; Alimentação', v: 120.00, t: 's', dt: '18/03/2026', ct: 'Dinheiro' },
+        { d: 'Netflix+Spotify', c: '&#127918; Lazer', v: 65.00, t: 's', dt: '17/03/2026', ct: 'Cartão de crédito' },
+        { d: 'Farmácia', c: '&#128138; Saúde', v: 90.00, t: 's', dt: '15/03/2026', ct: 'Dinheiro' },
+        { d: 'Aluguel', c: '&#127968; Moradia', v: 950.00, t: 's', dt: '05/03/2026', ct: 'Conta corrente' },
     ],
     pe: [
-        { d: 'Registrou movimentacao', t: 'e', v: 20, dt: '23/03/2025', i: '&#128221;' },
-        { d: 'Sequencia diaria (dia 7)', t: 'e', v: 10, dt: '23/03/2025', i: '&#128293;' },
-        { d: 'Bonus de onboarding', t: 'b', v: 200, dt: '22/03/2025', i: '&#127873;' },
-        { d: 'Registrou movimentacao', t: 'e', v: 20, dt: '22/03/2025', i: '&#128221;' },
-        { d: 'Completou desafio semanal', t: 'e', v: 100, dt: '21/03/2025', i: '&#127941;' },
-        { d: 'Resgatou Cashback 5%', t: 'u', v: -500, dt: '20/03/2025', i: '&#128184;' },
-        { d: 'Registrou movimentacao', t: 'e', v: 20, dt: '20/03/2025', i: '&#128221;' },
-        { d: 'Meta parcial atingida 50%', t: 'e', v: 50, dt: '19/03/2025', i: '&#127919;' },
+        { d: 'Registrou movimentação', t: 'e', v: 20.00, dt: '23/03/2026', i: '&#128221;' },
+        { d: 'Sequência diária (dia 7)', t: 'e', v: 10.00, dt: '23/03/2026', i: '&#128293;' },
+        { d: 'Bônus de Onboarding', t: 'b', v: 200.00, dt: '22/03/2026', i: '&#127873;' },
+        { d: 'Registrou movimentação', t: 'e', v: 20.00, dt: '22/03/2026', i: '&#128221;' },
+        { d: 'Completou desafio semanal', t: 'e', v: 100.00, dt: '21/03/2026', i: '&#127941;' },
+        { d: 'Resgatou Cashback 5%', t: 'u', v: -500.00, dt: '20/03/2026', i: '&#128184;' },
+        { d: 'Registrou movimentação', t: 'e', v: 20.00, dt: '20/03/2026', i: '&#128221;' },
+        { d: 'Meta parcial atingida 50%', t: 'e', v: 50.00, dt: '19/03/2026', i: '&#127919;' },
     ]
 };
 let curStep = 1;
@@ -64,13 +64,13 @@ function valR1() {
     const nm = document.getElementById('rn').value.trim();
     const em = document.getElementById('re').value.trim();
     const ph = document.getElementById('rph').value.trim();
-    const s1 = document.getElementById('rs').value;
-    const s2 = document.getElementById('rs2').value;
+    const s1 = document.getElementById('rpw').value;
+    const s2 = document.getElementById('rpw2').value;
     if (!nm) { toast('Informe seu nome!'); return false }
-    if (!em || !em.includes('@')) { toast('Informe um e-mail valido!'); return false }
+    if (!em || !em.includes('@')) { toast('Informe um e-mail válido!'); return false }
     if (!ph || ph.replace(/\D/g, '').length < 8) { toast('Informe seu telefone!'); return false }
     if (!s1 || s1.length < 8) { toast('A senha deve ter pelo menos 8 caracteres!'); return false }
-    if (s1 !== s2) { toast('As senhas nao coincidem!'); return false }
+    if (s1 !== s2) { toast('As senhas não coincidem!'); return false }
     return true;
 }
 function updRBar(n) {
@@ -127,8 +127,8 @@ function closeOv() {
 function selPop(btn) { document.querySelectorAll('.pop-o').forEach(b => b.classList.remove('on')); btn.classList.add('on') }
 
 // ── NAVIGATION ────────────────────────────────────────────────
-const pgm = { d: 'pd', r: 'pr', e: 'pe', m: 'pm', j: 'pj', p: 'pp', ia: 'pia', cfg: 'pcfg', so: 'pso', co: 'pco' };
-const pnm = { d: 'Dashboard', r: 'Nova Movimentacao', e: 'Extrato', m: 'Metas', j: 'HB Junior', p: 'Pointspay', ia: 'IA Financeira', cfg: 'Configuracoes', so: 'Sobre nos', co: 'Contato' };
+const pgm = { d: 'pd', r: 'pr', e: 'pe', m: 'pm', j: 'pj', fam: 'pfam', score: 'pscore', bol: 'pbol', p: 'pp', ia: 'pia', cfg: 'pcfg', so: 'pso', co: 'pco' };
+const pnm = { d: 'Dashboard', r: 'Nova Movimentação', e: 'Extrato', m: 'Metas', j: 'HB Júnior', fam: 'Pasta Compartilhada', score: 'Score de Crédito', bol: 'Boletos & Custos Fixos', p: 'Pointspay', ia: 'IA Financeira', cfg: 'Configurações', so: 'Sobre nós', co: 'Contato' };
 function goPage(id, btn) {
     document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
     document.querySelectorAll('.ni').forEach(b => b.classList.remove('on'));
@@ -136,6 +136,8 @@ function goPage(id, btn) {
     if (btn && btn.classList.contains('ni')) btn.classList.add('on');
     const t = document.getElementById('tbtl'); if (t) t.textContent = pnm[id] || id;
     if (id === 'e') renExt();
+    if (id === 'fam') { if (typeof initFam === 'function') initFam(); }
+    if (id === 'bol') { if (typeof renBol === 'function') renBol(); }
 }
 function updMob(id) {
     document.querySelectorAll('.mbn').forEach(b => b.classList.remove('on'));
@@ -162,19 +164,19 @@ function setTp(t) {
 function regTx() {
     const desc = document.getElementById('fdsc').value.trim();
     const val = parseFloat(document.getElementById('fvl').value);
-    const cat = document.getElementById('fct').value;
+    const cat = getSelCat();
     const dt = document.getElementById('fdt').value;
     const ct = document.getElementById('fct2').value;
-    if (!desc || !val || val <= 0) { toast('Preencha descricao e valor!'); return }
+    if (!desc || !val || val <= 0) { toast('Preencha descrição e valor!'); return }
     const d = dt ? new Date(dt + 'T00:00:00') : new Date();
     const df = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
     st.txs.unshift({ d: desc, c: cat, v: val, t: st.tipo, dt: df, ct: ct });
     st.pts += 20;
     if (st.tipo === 'e') { st.ent += val; st.saldo += val } else { st.sai += val; st.saldo -= val }
-    st.pe.unshift({ d: 'Registrou movimentacao', t: 'e', v: 20, dt: df, i: '&#128221;' });
+    st.pe.unshift({ d: 'Registrou movimentação', t: 'e', v: 20, dt: df, i: '&#128221;' });
     updPts(); updBal(); renDTx(); renPE();
     document.getElementById('fdsc').value = ''; document.getElementById('fvl').value = '';
-    toast('+20 Pointspay! Movimentacao registrada ✅', true);
+    toast('+20 Pointspay! Movimentação registrada ✅', true);
 }
 
 // ── RESGATAR ─────────────────────────────────────────────────
@@ -206,7 +208,7 @@ function updBal() {
 }
 
 // ── RENDER TRANSACTIONS ───────────────────────────────────────
-const imap = { '&#128188; Salario': 'g', '&#128187; Freelance': 'g', '&#127828; Alimentacao': 'r', '&#127968; Moradia': 'a', '&#128663; Transporte': 'b', '&#128138; Saude': 'a', '&#127918; Lazer': 'r', '&#128084; Vestuario': 'b', '&#128218; Educacao': 'b', '&#128230; Outros': 'a' };
+const imap = { '&#128188; Salário': 'g', '&#128187; Freelance': 'g', '&#127828; Alimentação': 'r', '&#127968; Moradia': 'a', '&#128663; Transporte': 'b', '&#128138; Saúde': 'a', '&#127918; Lazer': 'r', '&#128084; Vestuário': 'b', '&#128218; Educação': 'b', '&#128230; Outros': 'a' };
 function txH(tx) {
     const cl = imap[tx.c] || 'b', sg = tx.t === 'e' ? '+' : '-', vc = tx.t === 'e' ? 'p' : 'm', em = tx.c.split(' ')[0];
     return '<div class="txi"><div class="txl"><div class="txico ' + cl + '">' + em + '</div><div><div class="txn">' + tx.d + '</div><div class="txc">' + tx.c.replace(/^\S+\s/, '') + '&middot;' + tx.ct + '</div></div></div><div class="txr"><div class="txv ' + vc + '">' + sg + ' R$ ' + tx.v.toLocaleString('pt-BR') + '</div><div class="txd">' + tx.dt + '</div></div></div>';
@@ -216,7 +218,7 @@ function renExt() {
     const ft = document.getElementById('ftp').value, fc = document.getElementById('fct3').value;
     const ls = st.txs.filter(t => { if (ft && t.t !== ft) return false; if (fc && !t.c.includes(fc.replace(/^\S+\s/, ''))) return false; return true });
     const el = document.getElementById('extl'); if (!el) return;
-    if (!ls.length) { el.innerHTML = '<div style="text-align:center;color:var(--mu);padding:2rem;font-size:14px">Nenhuma movimentacao encontrada.</div>'; return }
+    if (!ls.length) { el.innerHTML = '<div style="text-align:center;color:var(--mu);padding:2rem;font-size:14px">Nenhuma movimentação encontrada.</div>'; return }
     el.innerHTML = ls.map(txH).join('');
 }
 function renPE() {
@@ -249,13 +251,109 @@ function sendJr() {
     const ms = document.getElementById('jms');
     ms.innerHTML += '<div class="jmg usr"><div class="jmgs" style="color:rgba(255,255,255,.8)">Pedro</div>' + txt + '</div>';
     inp.value = ''; ms.scrollTop = ms.scrollHeight;
-    const rs = ['Otima pergunta! &#127775; Guardar dinheiro e um super poder!', 'Muito bem! Continue assim e bata sua meta! &#127919;', 'Sabia que R$ 1 por dia vira R$ 365 no ano? &#129327;', 'Sua sequencia esta otima! &#128293;', 'Cada centavo guardado e um passo rumo ao Nintendo Switch! &#127918;'];
-    setTimeout(() => { ms.innerHTML += '<div class="jmg bot"><div class="jmgs" style="color:var(--jrd)">HB Junior</div>' + rs[Math.floor(Math.random() * rs.length)] + '</div>'; ms.scrollTop = ms.scrollHeight }, 800);
+    const rs = ['Ótima pergunta! &#127775; Guardar dinheiro é um super poder!', 'Muito bem! Continue assim e bata sua meta! &#127919;', 'Sabia que R$ 1,00 por dia vira R$ 365 no ano? &#129327;', 'Sua sequência está ótima! &#128293;', 'Cada centavo guardado e um passo rumo ao Nintendo Switch! &#127918;'];
+    setTimeout(() => { ms.innerHTML += '<div class="jmg bot"><div class="jmgs" style="color:var(--jrd)">HB Júnior</div>' + rs[Math.floor(Math.random() * rs.length)] + '</div>'; ms.scrollTop = ms.scrollHeight }, 800);
+}
+
+
+// ── CATEGORIES ───────────────────────────────────────────────
+const subcats = {
+    ali: ['Restaurante', 'Mercado', 'Delivery', 'Padaria', 'Lanchonete', 'Cafeteria', 'Bar', 'Feira'],
+    mor: ['Aluguel', 'Condomínio', 'IPTU', 'Luz', 'Água', 'Gás', 'Internet', 'Manutenção'],
+    tra: ['Uber/99', 'Combustível', 'Ônibus/Metro', 'Pedágio', 'Estacionamento', 'Manutenção auto', 'Avião'],
+    sau: ['Farmácia', 'Consulta médica', 'Plano de saúde', 'Exames', 'Academia', 'Psicologia', 'Dentista'],
+    laz: ['Streaming', 'Cinema', 'Shows', 'Viagem', 'Jogos', 'Esporte', 'Hobby', 'Restaurante'],
+    ves: ['Roupas', 'Calçados', 'Acessórios', 'Bolsa', 'Joias'],
+    edu: ['Curso', 'Livros', 'Faculdade', 'Escola', 'Idiomas', 'Material escolar'],
+    sal: ['Salário', '13º salário', 'Férias', 'Bônus', 'PLR'],
+    fre: ['Projeto', 'Consultoria', 'Design', 'Programação', 'Redação', 'Outros'],
+    inv: ['Ações', 'Fundos', 'CDB', 'Poupança', 'Cripto', 'Imóvel'],
+    pet: ['Ração', 'Veterinário', 'Pet shop', 'Vacina', 'Brinquedo'],
+    out: ['Presente', 'Doação', 'Impostos', 'Outros'],
+};
+let selCatId = '';
+function selCat(btn, catId) {
+    document.querySelectorAll('.cat-card').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    selCatId = catId;
+    const area = document.getElementById('subcat-area');
+    const btnsEl = document.getElementById('subcat-btns');
+    const lblEl = document.getElementById('subcat-label');
+    const subs = subcats[catId] || [];
+    if (subs.length) {
+        area.style.display = 'block';
+        lblEl.textContent = btn.querySelector('.cat-nm').textContent + ' — Subcategoria';
+        btnsEl.innerHTML = subs.map(s => '<button class="subcat-btn" onclick="selSubcat(this)">' + s + '</button>').join('');
+    } else {
+        area.style.display = 'none';
+    }
+}
+function selSubcat(btn) {
+    document.querySelectorAll('.subcat-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+}
+function getSelCat() {
+    const cc = document.querySelector('.cat-card.on .cat-nm');
+    const sc = document.querySelector('.subcat-btn.on');
+    if (!cc) return '&#128230; Outros';
+    const em = document.querySelector('.cat-card.on .cat-ico').textContent;
+    return em + ' ' + cc.textContent + (sc ? ' / ' + sc.textContent : '');
+}
+
+// ── LAYOUT ───────────────────────────────────────────────────
+let curLayout = 'grid';
+function setLayout(mode) {
+    curLayout = mode;
+    const dash = document.getElementById('pd');
+    dash.classList.remove('dash-compact', 'dash-list');
+    if (mode === 'compact') dash.classList.add('dash-compact');
+    if (mode === 'list') dash.classList.add('dash-list');
+    ['grid', 'compact', 'list'].forEach(m => {
+        const b = document.getElementById('ly-' + m);
+        if (b) b.classList.toggle('on', m === mode);
+    });
+    // sync cfg panel
+    ['grid', 'compact', 'list'].forEach(m => {
+        const b = document.getElementById('lyt-' + m);
+        if (b) b.classList.toggle('on', m === mode);
+    });
+}
+function setLayoutCfg(mode, btn) {
+    setLayout(mode);
+    toast('Layout alterado para ' + mode + ' ✅', true);
+}
+
+// ── PROFILE THEME ────────────────────────────────────────────
+function setProfile(btn, pid, ico, nm, color, light) {
+    document.querySelectorAll('.pth-card').forEach(b => { b.classList.remove('on'); b.style.borderColor = ''; });
+    btn.classList.add('on');
+    btn.style.borderColor = color;
+    const el = document.getElementById('curr-profile');
+    if (el) el.innerHTML = ico + ' ' + nm;
+    // Apply accent color to shell
+    const shell = document.querySelector('.shell');
+    if (shell) { shell.style.setProperty('--g-custom', color); shell.style.setProperty('--gl-custom', light); }
+    toast('Perfil alterado para ' + nm + '! ✅', true);
+}
+
+
+// ── ACCESSIBILITY ────────────────────────────────────────────
+function toggleLargeText() {
+    document.body.classList.toggle('lt');
+    const btn = document.getElementById('btn-lt');
+    if (btn) btn.classList.toggle('on', document.body.classList.contains('lt'));
+    toast(document.body.classList.contains('lt') ? 'Texto grande ativado ✅' : 'Texto normal restaurado', true);
+}
+function toggleHighContrast() {
+    document.body.classList.toggle('hc');
+    const btn = document.getElementById('btn-hc');
+    if (btn) btn.classList.toggle('on', document.body.classList.contains('hc'));
+    toast(document.body.classList.contains('hc') ? 'Alto contraste ativado ✅' : 'Contraste normal restaurado', true);
 }
 
 // ── LOGOUT / DELETE ──────────────────────────────────────────
 function showLogout() { document.getElementById('cm-lo').classList.remove('hi') }
-function doLogout() { document.getElementById('cm-lo').classList.add('hi'); goLogin(); toast('Voce saiu com seguranca &#128274;') }
+function doLogout() { document.getElementById('cm-lo').classList.add('hi'); goLogin(); toast('Você saiu com segurança &#128274;') }
 function showDelete() { document.getElementById('cm-del').classList.remove('hi') }
 function doDelete() {
     const pass = document.getElementById('dp').value;
@@ -266,7 +364,6 @@ function doDelete() {
     document.getElementById('cm-done').classList.remove('hi');
 }
 
-// ── TOAST ────────────────────────────────────────────────────
 function toast(msg, green = false) {
     const t = document.getElementById('tst'); t.innerHTML = msg;
     t.className = 'tst' + (green ? ' gt' : '') + ' on';
@@ -276,3 +373,212 @@ function toast(msg, green = false) {
 // ── INIT ─────────────────────────────────────────────────────
 renDTx(); renStreak(); renBar(); renPE(); updPts(); updBal();
 const fdt = document.getElementById('fdt'); if (fdt) fdt.value = new Date().toISOString().split('T')[0];
+
+// ═══════════════════════════════════════════
+// PASTA COMPARTILHADA
+// ═══════════════════════════════════════════
+let shHasGroup = true; // demo: grupo já existe
+let shType = 'casal';
+
+function initFam() {
+    const setup = document.getElementById('sh-setup-area');
+    const active = document.getElementById('sh-active');
+    if (shHasGroup) {
+        if (setup) setup.style.display = 'none';
+        if (active) active.style.display = 'block';
+    } else {
+        if (setup) setup.style.display = 'block';
+        if (active) active.style.display = 'none';
+    }
+}
+
+function shSelType(btn, tipo) {
+    document.querySelectorAll('.sh-type').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    shType = tipo;
+    const area = document.getElementById('sh-invite-area');
+    const lbl = document.getElementById('sh-inv-lbl');
+    const m2w = document.getElementById('sh-m2w');
+    if (area) area.style.display = 'block';
+    const labels = { casal: 'Convidar parceiro(a)', republica: 'Convidar moradores', familia: 'Convidar membros da família', amigos: 'Convidar participantes' };
+    if (lbl) lbl.textContent = labels[tipo] || 'Convidar membros';
+    if (m2w) m2w.style.display = (tipo === 'republica' || tipo === 'familia' || tipo === 'amigos') ? 'block' : 'none';
+}
+
+function shCreate() {
+    const m1 = document.getElementById('sh-m1');
+    if (!m1 || !m1.value.trim()) { toast('Informe o e-mail do primeiro membro!'); return; }
+    shHasGroup = true;
+    initFam();
+    const nms = { casal: 'Casal', republica: 'República', familia: 'Família', amigos: 'Grupo' };
+    const lbl = document.getElementById('sh-type-lbl');
+    if (lbl) lbl.textContent = nms[shType] || 'Grupo';
+    toast('Grupo criado! Convites enviados por e-mail ✅', true);
+}
+
+function shTab(id, btn) {
+    document.querySelectorAll('.sh-panel').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.sh-tb').forEach(b => b.classList.remove('on'));
+    const panel = document.getElementById('shp-' + id);
+    if (panel) panel.classList.add('on');
+    if (btn && btn.classList) btn.classList.add('on');
+    else if (typeof btn === 'object' && btn) btn.classList.add('on');
+}
+
+// ═══════════════════════════════════════════
+// SCORE DE CRÉDITO
+// ═══════════════════════════════════════════
+let scoreLoaded = false;
+
+function showScore() {
+    const consultArea = document.getElementById('score-consult-area');
+    const resultArea = document.getElementById('score-result');
+    if (!consultArea || !resultArea) return;
+    // Simulate loading
+    consultArea.innerHTML = '<div style="text-align:center;padding:3rem"><div style="font-size:48px;margin-bottom:1rem">&#128202;</div><div style="font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:.5rem">Consultando seu CPF...</div><div style="font-size:13px;color:var(--mu)">Aguarde, isso leva alguns segundos</div><div style="margin-top:1.5rem;width:100%;height:6px;background:var(--s2);border-radius:999px;overflow:hidden"><div style="height:100%;background:var(--g);border-radius:999px;animation:scoreLoad 2s ease forwards" id="score-bar"></div></div></div>';
+    // Add keyframe animation inline
+    if (!document.getElementById('score-anim')) {
+        const st = document.createElement('style');
+        st.id = 'score-anim';
+        st.textContent = '@keyframes scoreLoad{from{width:0}to{width:100%}}';
+        document.head.appendChild(st);
+    }
+    setTimeout(() => {
+        consultArea.style.display = 'none';
+        resultArea.style.display = 'block';
+        scoreLoaded = true;
+    }, 2200);
+}
+
+// ═══════════════════════════════════════════
+// BOLETOS & CUSTOS FIXOS
+// ═══════════════════════════════════════════
+let boletos = [
+    { id: 1, nm: 'Aluguel', vl: 1200, dt: '2026-04-05', cat: '🏠 Moradia', status: 'pendente', recur: 'Mensal', comp: 'grupo', conta: 'Conta corrente' },
+    { id: 2, nm: 'Conta de luz', vl: 180, dt: '2026-04-17', cat: '⚡ Energia / Água / Gás', status: 'pendente', recur: 'Mensal', comp: 'grupo', conta: 'Conta corrente' },
+    { id: 3, nm: 'Internet Vivo', vl: 120, dt: '2026-04-11', cat: '💻 Internet / TV', status: 'pendente', recur: 'Mensal', comp: 'eu', conta: 'Cartão de crédito' },
+    { id: 4, nm: 'Netflix', vl: 55, dt: '2026-04-25', cat: '🎬 Streaming', status: 'pendente', recur: 'Mensal', comp: 'grupo', conta: 'Cartão de crédito' },
+    { id: 5, nm: 'Plano de Saúde', vl: 380, dt: '2026-04-10', cat: '💊 Saúde / Plano', status: 'pendente', recur: 'Mensal', comp: 'eu', conta: 'Conta corrente' },
+    { id: 6, nm: 'Água / Condomínio', vl: 290, dt: '2026-04-20', cat: '💧 Energia / Água / Gás', status: 'pendente', recur: 'Mensal', comp: 'grupo', conta: 'Conta corrente' },
+    { id: 7, nm: 'IPTU 2026', vl: 620, dt: '2026-03-31', cat: '🏠 Moradia', status: 'vencido', recur: 'Anual', comp: 'eu', conta: 'Conta corrente' },
+];
+let bolFiltro = 'todos';
+let bolRecurSel = 'Único';
+
+function renBol() {
+    const el = document.getElementById('bol-list');
+    if (!el) return;
+    const today = new Date();
+    const in7 = new Date(today); in7.setDate(today.getDate() + 7);
+
+    let list = [...boletos];
+    if (bolFiltro === 'pendente') list = list.filter(b => b.status === 'pendente');
+    else if (bolFiltro === 'pago') list = list.filter(b => b.status === 'pago');
+    else if (bolFiltro === 'vencido') list = list.filter(b => b.status === 'vencido');
+    else if (bolFiltro === 'vencendo') list = list.filter(b => {
+        const d = new Date(b.dt + 'T00:00:00');
+        return b.status === 'pendente' && d <= in7 && d >= today;
+    });
+
+    if (!list.length) {
+        el.innerHTML = '<div style="text-align:center;color:var(--mu);padding:2rem;font-size:14px">Nenhum boleto encontrado.</div>';
+        return;
+    }
+
+    const catIco = { 'Moradia': '🏠', 'Energia': '⚡', 'Água': '💧', 'Internet': '💻', 'Saúde': '💊', 'Streaming': '🎬', 'Cartão': '💳', 'Seguro': '🛡️', 'Educação': '📚', 'Transporte': '🚗', 'Outros': '📦' };
+
+    el.innerHTML = list.map(b => {
+        const d = new Date(b.dt + 'T00:00:00');
+        const diff = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
+        let statusLbl, statusClass, dtTxt;
+        if (b.status === 'pago') { statusLbl = '✓ Pago'; statusClass = 'pago'; dtTxt = 'Pago em ' + d.toLocaleDateString('pt-BR'); }
+        else if (b.status === 'vencido') { statusLbl = '⚠ Vencido'; statusClass = 'vencido'; dtTxt = 'Venceu em ' + d.toLocaleDateString('pt-BR'); }
+        else if (diff === 0) { statusLbl = '🔴 Hoje'; statusClass = 'hoje'; dtTxt = 'Vence hoje'; }
+        else if (diff <= 7) { statusLbl = '⚠ ' + diff + ' dias'; statusClass = 'pendente'; dtTxt = 'Vence em ' + diff + ' dias'; }
+        else { statusLbl = diff + ' dias'; statusClass = 'pendente'; dtTxt = 'Vence ' + d.toLocaleDateString('pt-BR'); }
+
+        const ico = b.cat.split(' ')[0];
+        const bgMap = { pendente: 'var(--al)', pago: 'var(--gl)', vencido: 'var(--rl)', hoje: 'var(--rl)' };
+        const pagarBtn = b.status !== 'pago' ? '<button class="bol-action-btn pagar" onclick="bolPagar(' + b.id + ')">Marcar pago</button>' : '';
+
+        return '<div class="bol-item">'
+            + '<div class="bol-ico" style="background:' + bgMap[b.status] + '">' + ico + '</div>'
+            + '<div class="bol-info">'
+            + '<div class="bol-nm">' + b.nm + '</div>'
+            + '<div class="bol-sub">' + dtTxt + ' · ' + b.recur + (b.comp === 'grupo' ? ' · <span style="font-size:11px;background:var(--jrl);color:var(--jrd);padding:1px 6px;border-radius:999px">Compartilhado</span>' : '') + '</div>'
+            + '</div>'
+            + '<div class="bol-right">'
+            + '<div class="bol-val" style="color:' + (b.status === 'pago' ? 'var(--g)' : b.status === 'vencido' ? 'var(--re)' : 'var(--tx)') + '">R$ ' + b.vl.toLocaleString('pt-BR') + '</div>'
+            + '<div><span class="bol-status ' + b.status + '">' + statusLbl + '</span></div>'
+            + (pagarBtn ? '<div style="margin-top:4px">' + pagarBtn + '</div>' : '')
+            + '</div>'
+            + '</div>';
+    }).join('');
+}
+
+function bolFilter(btn, filtro) {
+    document.querySelectorAll('.bol-filter').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    bolFiltro = filtro;
+    renBol();
+}
+
+function bolPagar(id) {
+    const b = boletos.find(x => x.id === id);
+    if (!b) return;
+    b.status = 'pago';
+    renBol();
+    // Add to transactions
+    const today = new Date();
+    const df = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + today.getFullYear();
+    if (typeof st !== 'undefined') {
+        st.txs.unshift({ d: b.nm, c: b.cat, v: b.vl, t: 's', dt: df, ct: b.conta });
+        st.sai += b.vl; st.saldo -= b.vl;
+        updBal();
+    }
+    toast(b.nm + ' Marcado como pago! ✅', true);
+}
+
+function bolOpenForm() {
+    const f = document.getElementById('bol-form-card');
+    const l = document.getElementById('bol-list-card');
+    if (f) f.style.display = 'block';
+    if (l) l.style.display = 'none';
+    const dt = document.getElementById('bol-dt');
+    if (dt) dt.value = new Date().toISOString().split('T')[0];
+    f.scrollIntoView({ behavior: 'smooth' });
+}
+
+function bolCloseForm() {
+    const f = document.getElementById('bol-form-card');
+    const l = document.getElementById('bol-list-card');
+    if (f) f.style.display = 'none';
+    if (l) l.style.display = 'block';
+}
+
+function bolRecur(btn) {
+    document.querySelectorAll('.bol-recur-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    bolRecurSel = btn.textContent.trim();
+}
+
+function bolSave() {
+    const nm = document.getElementById('bol-nm').value.trim();
+    const vl = parseFloat(document.getElementById('bol-vl').value);
+    const dt = document.getElementById('bol-dt').value;
+    const cat = document.getElementById('bol-cat').value;
+    const comp = document.getElementById('bol-comp').value;
+    const conta = document.getElementById('bol-conta').value;
+    const obs = document.getElementById('bol-obs').value;
+    if (!nm) { toast('Informe o nome do boleto!'); return; }
+    if (!vl || vl <= 0) { toast('Informe um valor válido!'); return; }
+    if (!dt) { toast('Informe a data de vencimento!'); return; }
+    const newId = Math.max(...boletos.map(b => b.id)) + 1;
+    boletos.unshift({ id: newId, nm, vl, dt, cat, status: 'pendente', recur: bolRecurSel, comp, conta });
+    bolCloseForm();
+    renBol();
+    // Reset form
+    ['bol-nm', 'bol-vl', 'bol-obs'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    toast('Boleto cadastrado com sucesso! ✅', true);
+}
+
