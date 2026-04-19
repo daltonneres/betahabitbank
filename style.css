@@ -2348,6 +2348,10 @@ body {
   color: var(--g);
   margin-bottom: 0.25rem;
 }
+.mlo span {
+  color: var(--tx);
+  opacity: 0.4;
+}
 .mtt {
   font-family: var(--fd);
   font-size: 20px;

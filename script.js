@@ -251,7 +251,7 @@ function sendJr() {
     const ms = document.getElementById('jms');
     ms.innerHTML += '<div class="jmg usr"><div class="jmgs" style="color:rgba(255,255,255,.8)">Pedro</div>' + txt + '</div>';
     inp.value = ''; ms.scrollTop = ms.scrollHeight;
-    const rs = ['Ótima pergunta! &#127775; Guardar dinheiro é um super poder!', 'Muito bem! Continue assim e bata sua meta! &#127919;', 'Sabia que R$ 1,00 por dia vira R$ 365 no ano? &#129327;', 'Sua sequência está ótima! &#128293;', 'Cada centavo guardado e um passo rumo ao Nintendo Switch! &#127918;'];
+    const rs = ['Ótima pergunta! &#127775; Guardar dinheiro é um super poder!', 'Muito bem! Continue assim e bata sua meta! &#127919;', 'Sabia que R$ 1,00 por dia vira R$ 365,00 no ano? &#129327;', 'Sua sequência está ótima! &#128293;', 'Cada centavo guardado e um passo rumo ao Nintendo Switch! &#127918;'];
     setTimeout(() => { ms.innerHTML += '<div class="jmg bot"><div class="jmgs" style="color:var(--jrd)">HB Júnior</div>' + rs[Math.floor(Math.random() * rs.length)] + '</div>'; ms.scrollTop = ms.scrollHeight }, 800);
 }
 
